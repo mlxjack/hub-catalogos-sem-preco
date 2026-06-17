@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogos de Produtos | Chumbada Oficial</title>
+  <meta name="description" content="Portal de catálogos da Chumbada Oficial para lojistas e parceiros. Acesse a linha completa de anzóis, iscas, acessórios, óculos de sol, chumbadas e jig heads." />
+
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-gradient: linear-gradient(135deg, #050505 0%, #0c0c0e 50%, #070708 100%);
+      --card-bg: rgba(23, 23, 27, 0.65);
+      --card-hover-bg: rgba(28, 28, 33, 0.85);
+      --orange: #ff4d00;
+      --orange-glow: rgba(255, 77, 0, 0.4);
+      --orange-gradient: linear-gradient(135deg, #ff4d00 0%, #ff7300 100%);
+      --white: #ffffff;
+      --muted: #a1a1aa;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 77, 0, 0.35);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--white);
+      background: var(--bg-gradient);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient glowing orbs */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 77, 0, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 40vw;
+      height: 40vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 77, 0, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grid overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at 50% 30%, black 60%, transparent 100%);
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 40px 0 60px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0 50px;
+    }
+
+    .logo-box {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+    }
+
+    .logo-box img {
+      width: 220px;
+      max-width: 60vw;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+    }
+
+    .seller-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid rgba(255, 77, 0, 0.25);
+      border-radius: 99px;
+      background: rgba(255, 77, 0, 0.06);
+      color: #ffbfa3;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .seller-badge span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 12px var(--orange);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 0, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 77, 0, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 0, 0); }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    .hero-content {
+      padding: 10px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      margin-bottom: 20px;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border-left: 4px solid var(--orange);
+      background: rgba(255, 255, 255, 0.03);
+      color: #f4f4f5;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 68px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h1 strong {
+      color: transparent;
+      background: var(--orange-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 2px 20px rgba(255, 77, 0, 0.15));
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: clamp(16px, 1.8vw, 18px);
+      line-height: 1.6;
+      margin-bottom: 35px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .primary-link,
+    .secondary-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 28px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .primary-link {
+      color: #000;
+      background: var(--orange-gradient);
+      box-shadow: 0 12px 30px rgba(255, 77, 0, 0.25);
+    }
+
+    .primary-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 35px rgba(255, 77, 0, 0.35);
+      filter: brightness(1.05);
+    }
+
+    .secondary-link {
+      color: var(--white);
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(8px);
+    }
+
+    .secondary-link:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      background: rgba(255, 77, 0, 0.08);
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 340px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 77, 0, 0.2);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .panel-number {
+      width: 80px;
+      height: 80px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      color: #000;
+      background: var(--orange-gradient);
+      font-size: 38px;
+      font-weight: 800;
+      box-shadow: 0 12px 25px rgba(255, 77, 0, 0.3);
+    }
+
+    .panel-text h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-text p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .catalog-card {
+      position: relative;
+      min-height: 330px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .catalog-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--orange-gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .catalog-card:hover {
+      transform: translateY(-8px);
+      background: var(--card-hover-bg);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 45px rgba(255, 77, 0, 0.12);
+    }
+
+    .catalog-card:hover::before {
+      opacity: 1;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      background: rgba(255, 77, 0, 0.08);
+      border: 1px solid rgba(255, 77, 0, 0.2);
+      color: var(--orange);
+      transition: all 0.3s ease;
+    }
+
+    .catalog-card:hover .icon {
+      background: var(--orange-gradient);
+      color: #000;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(255, 77, 0, 0.25);
+    }
+
+    .icon svg {
+      width: 28px;
+      height: 28px;
+      stroke-width: 2.2;
+    }
+
+    .catalog-card h3 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      transition: color 0.3s ease;
+    }
+
+    .catalog-card:hover h3 {
+      color: var(--orange-2);
+    }
+
+    .catalog-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin-bottom: 30px;
+    }
+
+    .card-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      margin-top: auto;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .catalog-card:hover .card-button {
+      color: #000;
+      background: var(--orange-gradient);
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(255, 77, 0, 0.2);
+    }
+
+    .card-button span:last-child {
+      font-size: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .catalog-card:hover .card-button span:last-child {
+      transform: translateX(4px);
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(8px);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-note strong {
+      color: var(--white);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-panel {
+        min-height: auto;
+        padding: 10px 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding-bottom: 30px;
+      }
+      .footer-note {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay"></div>
+  
+  <main class="page">
+    <header>
+      <a class="logo-box" href="https://chumbadas.com.br/" target="_blank" rel="noopener" aria-label="Acessar site da Chumbada Oficial">
+        <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Chumbada Oficial" />
+      </a>
+
+      <div class="seller-badge">
+        <span></span>
+        Vitrine Digital de Catálogos
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="titulo-principal">
+      <div class="hero-content">
+        <div class="eyebrow">Catálogos Sem Preço</div>
+        <h1 id="titulo-principal">Explore os catálogos da <strong>Chumbada Oficial</strong></h1>
+        <p>
+          Uma vitrine limpa e sem preços ideal para apresentar produtos diretamente para os seus clientes, lojistas e equipe comercial. Selecione uma das linhas abaixo para conferir os modelos.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#catalogos">Ver catálogos</a>
+          <a class="secondary-link" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Site oficial</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="Resumo dos catálogos disponíveis">
+        <div class="panel-inner">
+          <div class="panel-number">5</div>
+          <div class="panel-text">
+            <h2>Catálogos integrados</h2>
+            <p>Iscas, anzóis, óculos, acessórios, chumbadas e jig heads estruturados de forma dinâmica, rápida e limpa para ajudar suas vendas.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="catalogos" class="catalog-grid" aria-label="Lista de catálogos">
+      <!-- ANZÓIS -->
+      <article class="catalog-card">
+        <div class="card-content">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 3c3.5 3.2 5.2 6.1 5.2 9.1A5.2 5.2 0 0 1 12 17.3a5.2 5.2 0 0 1-5.2-5.2C6.8 9.1 8.5 6.2 12 3Z" />
+              <path d="M12 17.3v3.7" />
+              <path d="M9.8 21h4.4" />
+            </svg>
+          </div>
+          <h3>Catálogo de Anzóis</h3>
+          <p>Consulte a linha completa de anzóis Premium Quimipoint e modelos padrão da Chumbada Oficial.</p>
+          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener">
+            <span>Acessar catálogo</span>
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- ISCAS -->
+      <article class="catalog-card">
+        <div class="card-content">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M3 12c2.8-4 6.3-6 10.5-6 3.2 0 5.7 1.4 7.5 4.1-1.8 2.7-4.3 4.1-7.5 4.1C9.3 14.2 5.8 13.5 3 12Z" />
+              <path d="M18.2 9.3 22 7v6l-3.8-2.3" />
+              <path d="M8 11.8h.01" />
+            </svg>
+          </div>
+          <h3>Catálogo de Iscas</h3>
+          <p>Veja as opções de iscas soft baits, tamanhos, embalagens e modelos disponíveis.</p>
+          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-iscas-chumbada-sem-preco/" target="_blank" rel="noopener">
+            <span>Acessar catálogo</span>
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- ACESSÓRIOS -->
+      <article class="catalog-card">
+        <div class="card-content">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 7h16" />
+              <path d="M7 7v13" />
+              <path d="M17 7v13" />
+              <path d="M6 20h12" />
+              <path d="M9 11h6" />
+              <path d="M10 3h4l1 4H9l1-4Z" />
+            </svg>
+          </div>
+          <h3>Catálogo de Acessórios</h3>
+          <p>Acesse suportes, snaps, organizadores e demais acessórios oficiais da marca.</p>
+          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-acessorios-sem-preco/" target="_blank" rel="noopener">
+            <span>Acessar catálogo</span>
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- ÓCULOS -->
+      <article class="catalog-card">
+        <div class="card-content">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="6" cy="15" r="4"/>
+              <circle cx="18" cy="15" r="4"/>
+              <path d="M14 15a2 2 0 0 0-4 0"/>
+              <path d="M2.5 13 5 7c.7-1.3 1.4-2 3-2"/>
+              <path d="M21.5 13 19 7c-.7-1.3-1.5-2-3-2"/>
+            </svg>
+          </div>
+          <h3>Catálogo de Óculos</h3>
+          <p>Confira nossa linha de óculos de sol polarizados, desenvolvidos para proteção e visibilidade na água.</p>
+          <a class="card-button" href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener">
+            <span>Acessar catálogo</span>
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CHUMBADAS E JIG HEADS -->
+      <article class="catalog-card">
+        <div class="card-content">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z" />
+              <path d="M12 6c-3 4-6 7.5-6 11a6 6 0 1 0 12 0c0-3.5-3-7-6-11z" />
+            </svg>
+          </div>
+          <h3>Chumbadas e Jig Heads</h3>
+          <p>Veja a variedade de gramaturas, modelos e formatos de chumbas e jig heads da nossa linha.</p>
+          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener">
+            <span>Acessar catálogo</span>
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer-note">
+      <p><strong>Chumbada Oficial</strong> — Feito por pescador, para pescador.</p>
+      <p>Selecione um catálogo para abrir os modelos sem preço em uma nova aba.</p>
+    </div>
+  </main>
+</body>
+</html>
