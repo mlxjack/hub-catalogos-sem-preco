@@ -6,28 +6,28 @@
   <title>Catálogos de Produtos | Chumbada Oficial</title>
   <meta name="description" content="Portal de catálogos da Chumbada Oficial para lojistas e parceiros. Acesse a linha completa de anzóis, iscas, acessórios, óculos de sol, chumbadas e jig heads." />
 
-  <!-- Google Fonts for premium typography -->
+  <!-- Google Fonts: Outfit (Athletic Headings), Inter (Body Text), JetBrains Mono (Technical Details) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #050505;
-      --bg-gradient: linear-gradient(135deg, #050505 0%, #0c0c0e 50%, #070708 100%);
-      --card-bg: rgba(23, 23, 27, 0.65);
-      --card-hover-bg: rgba(28, 28, 33, 0.85);
-      --orange: #ff4d00;
-      --orange-glow: rgba(255, 77, 0, 0.4);
-      --orange-gradient: linear-gradient(135deg, #ff4d00 0%, #ff7300 100%);
-      --white: #ffffff;
-      --muted: #a1a1aa;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 77, 0, 0.35);
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg: #ffffff;
+      --bg-alt: #f6f6f6;
+      --text-primary: #111111;
+      --text-secondary: #767676;
+      --accent: #ff4d00; /* Nike-style bright athletic orange */
+      --accent-hover: #d43f00;
+      --border: #e5e5e5;
+      --border-dark: #111111;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -36,423 +36,330 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
-      font-family: var(--font);
-      color: var(--white);
-      background: var(--bg-gradient);
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background-color: var(--bg);
       overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Ambient glowing orbs */
-    body::before {
-      content: "";
-      position: fixed;
-      top: -10%;
-      left: -10%;
-      width: 50vw;
-      height: 50vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 77, 0, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      bottom: -10%;
-      right: -10%;
-      width: 40vw;
-      height: 40vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 77, 0, 0.08) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Grid overlay */
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 50px 50px;
-      mask-image: radial-gradient(circle at 50% 30%, black 60%, transparent 100%);
-      z-index: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     .page {
-      position: relative;
-      z-index: 1;
-      width: min(1200px, calc(100% - 40px));
+      width: min(1200px, calc(100% - 48px));
       margin: 0 auto;
-      padding: 40px 0 60px;
+      padding: 24px 0 60px;
     }
 
+    /* Header Styling */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      padding: 20px 0 50px;
+      padding: 20px 0;
+      background-color: transparent;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 60px;
     }
 
     .logo-box {
       display: flex;
       align-items: center;
-      gap: 15px;
       text-decoration: none;
     }
 
+    /* Display original silver logo on dark background */
     .logo-box img {
-      width: 220px;
-      max-width: 60vw;
-      height: auto;
+      height: 36px;
+      width: auto;
       display: block;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+      transition: opacity 0.2s ease;
     }
 
+    .logo-box:hover img {
+      opacity: 0.8;
+    }
+
+    /* Technical sportswear label style badge */
     .seller-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border: 1px solid rgba(255, 77, 0, 0.25);
-      border-radius: 99px;
-      background: rgba(255, 77, 0, 0.06);
-      color: #ffbfa3;
-      font-size: 13px;
+      gap: 10px;
+      padding: 8px 16px;
+      border: 1px solid var(--border-dark);
+      background-color: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      backdrop-filter: blur(10px);
     }
 
     .seller-badge span {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--orange);
-      box-shadow: 0 0 12px var(--orange);
-      animation: pulse 2s infinite;
+      background: var(--accent);
+      animation: pulse 1.8s infinite;
     }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 0, 0.7); }
-      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 77, 0, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 0, 0); }
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.6; }
     }
 
+    /* Hero Section */
     .hero {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 50px;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 60px;
       align-items: center;
-      margin-bottom: 60px;
+      margin-bottom: 80px;
     }
 
     .hero-content {
-      padding: 10px 0;
+      padding-right: 20px;
     }
 
     .eyebrow {
-      display: inline-flex;
-      margin-bottom: 20px;
-      padding: 6px 14px;
-      border-radius: 4px;
-      border-left: 4px solid var(--orange);
-      background: rgba(255, 255, 255, 0.03);
-      color: #f4f4f5;
-      font-size: 13px;
+      display: inline-block;
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
     }
 
     h1 {
-      font-size: clamp(36px, 5vw, 68px);
-      font-weight: 800;
-      line-height: 1.05;
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 900;
+      line-height: 0.95;
       letter-spacing: -0.04em;
       text-transform: uppercase;
       margin-bottom: 24px;
+      color: var(--text-primary);
     }
 
     h1 strong {
-      color: transparent;
-      background: var(--orange-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      filter: drop-shadow(0 2px 20px rgba(255, 77, 0, 0.15));
+      color: var(--accent);
+      font-weight: 900;
     }
 
     .hero p {
-      max-width: 600px;
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 18px);
+      max-width: 580px;
+      color: var(--text-secondary);
+      font-size: clamp(15px, 1.8vw, 17px);
       line-height: 1.6;
-      margin-bottom: 35px;
+      margin-bottom: 36px;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 16px;
       align-items: center;
     }
 
+    /* Pill Buttons (Nike Style) */
     .primary-link,
     .secondary-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 52px;
-      padding: 0 28px;
-      border-radius: var(--radius-md);
+      min-height: 50px;
+      padding: 0 32px;
+      border-radius: 99px;
       text-decoration: none;
-      font-size: 14px;
+      font-family: var(--font-body);
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: var(--transition);
     }
 
     .primary-link {
-      color: #000;
-      background: var(--orange-gradient);
-      box-shadow: 0 12px 30px rgba(255, 77, 0, 0.25);
+      color: var(--bg);
+      background-color: var(--text-primary);
+      border: 1px solid var(--text-primary);
     }
 
     .primary-link:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 35px rgba(255, 77, 0, 0.35);
-      filter: brightness(1.05);
+      background-color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .secondary-link {
-      color: var(--white);
+      color: var(--text-primary);
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(8px);
+      background-color: transparent;
     }
 
     .secondary-link:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-hover);
-      background: rgba(255, 77, 0, 0.08);
+      border-color: var(--text-primary);
+      background-color: var(--bg-alt);
+      transform: translateY(-2px);
     }
 
-    .hero-panel {
-      position: relative;
-      min-height: 340px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-      backdrop-filter: blur(20px);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    /* Hero Logo Panel */
+    .hero-logo-panel {
+      border: none;
+      background-color: transparent;
+      padding: 20px;
       display: flex;
       align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      height: 100%;
     }
 
-    .hero-panel::before {
-      content: "";
-      position: absolute;
-      top: -30%;
-      right: -20%;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: rgba(255, 77, 0, 0.2);
-      filter: blur(40px);
-      pointer-events: none;
-    }
-
-    .panel-inner {
-      position: relative;
-      z-index: 2;
+    .hero-logo-panel img {
       width: 100%;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
+      max-width: 420px;
+      height: auto;
+      display: block;
+      filter: none;
+      transition: transform 0.4s ease;
     }
 
-    .panel-number {
-      width: 80px;
-      height: 80px;
-      display: grid;
-      place-items: center;
-      border-radius: 20px;
-      color: #000;
-      background: var(--orange-gradient);
-      font-size: 38px;
-      font-weight: 800;
-      box-shadow: 0 12px 25px rgba(255, 77, 0, 0.3);
+    .hero-logo-panel:hover img {
+      transform: scale(1.03);
     }
 
-    .panel-text h2 {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .panel-text p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
+    /* Catalog Cards Grid */
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 24px;
-      margin-bottom: 60px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-bottom: 80px;
+      margin-top: 40px;
     }
 
     .catalog-card {
-      position: relative;
-      min-height: 330px;
-      padding: 32px;
+      background-color: var(--bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .catalog-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--orange-gradient);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: var(--transition);
+      position: relative;
     }
 
     .catalog-card:hover {
-      transform: translateY(-8px);
-      background: var(--card-hover-bg);
-      border-color: var(--border-hover);
-      box-shadow: 0 20px 45px rgba(255, 77, 0, 0.12);
+      border-color: var(--border-dark);
     }
 
-    .catalog-card:hover::before {
-      opacity: 1;
+    /* Card Image Container */
+    .card-image-box {
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      background-color: var(--bg-alt);
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid var(--border);
     }
 
-    .icon {
-      width: 60px;
-      height: 60px;
-      display: grid;
-      place-items: center;
-      border-radius: var(--radius-md);
-      margin-bottom: 24px;
-      background: rgba(255, 77, 0, 0.08);
-      border: 1px solid rgba(255, 77, 0, 0.2);
-      color: var(--orange);
-      transition: all 0.3s ease;
+    .card-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .catalog-card:hover .icon {
-      background: var(--orange-gradient);
-      color: #000;
-      border-color: transparent;
-      box-shadow: 0 8px 20px rgba(255, 77, 0, 0.25);
+    .catalog-card:hover .card-image-box img {
+      transform: scale(1.05);
     }
 
-    .icon svg {
-      width: 28px;
-      height: 28px;
-      stroke-width: 2.2;
+    /* Card Content */
+    .card-content {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
 
     .catalog-card h3 {
-      font-size: 24px;
-      font-weight: 700;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
       letter-spacing: -0.02em;
       text-transform: uppercase;
-      margin-bottom: 12px;
-      transition: color 0.3s ease;
-    }
-
-    .catalog-card:hover h3 {
-      color: var(--orange-2);
+      margin-bottom: 10px;
+      color: var(--text-primary);
     }
 
     .catalog-card p {
-      color: var(--muted);
+      color: var(--text-secondary);
       font-size: 14px;
-      line-height: 1.55;
-      margin-bottom: 30px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      flex-grow: 1;
     }
 
-    .card-button {
+    /* Clean Card CTA Link (Nike Style) */
+    .card-link {
       display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      width: 100%;
-      margin-top: auto;
-      padding: 14px 20px;
-      border-radius: var(--radius-md);
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
+      gap: 6px;
+      color: var(--text-primary);
       text-decoration: none;
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      transition: all 0.3s ease;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      width: fit-content;
+      transition: var(--transition);
+      margin-top: auto;
     }
 
-    .catalog-card:hover .card-button {
-      color: #000;
-      background: var(--orange-gradient);
-      border-color: transparent;
-      box-shadow: 0 8px 20px rgba(255, 77, 0, 0.2);
+    .card-link .arrow {
+      font-size: 15px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .card-button span:last-child {
-      font-size: 16px;
-      transition: transform 0.3s ease;
+    .catalog-card:hover .card-link {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
 
-    .catalog-card:hover .card-button span:last-child {
+    .catalog-card:hover .card-link .arrow {
       transform: translateX(4px);
     }
 
+    /* Footer note section */
     .footer-note {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      padding: 24px 30px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(8px);
-      color: var(--muted);
-      font-size: 14px;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     .footer-note strong {
-      color: var(--white);
+      color: var(--text-primary);
+    }
+
+    .footer-note p:last-child {
+      text-align: right;
     }
 
     /* Responsive adjustments */
@@ -461,9 +368,8 @@
         grid-template-columns: 1fr;
         gap: 40px;
       }
-      .hero-panel {
+      .hero-logo-panel {
         min-height: auto;
-        padding: 10px 0;
       }
     }
 
@@ -471,19 +377,27 @@
       header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
-        padding-bottom: 30px;
+        gap: 24px;
+        padding-bottom: 36px;
+        margin-bottom: 40px;
+      }
+      .seller-badge {
+        width: 100%;
+        justify-content: center;
       }
       .footer-note {
         flex-direction: column;
         align-items: flex-start;
+        gap: 12px;
+        text-align: left;
+      }
+      .footer-note p:last-child {
         text-align: left;
       }
     }
   </style>
 </head>
 <body>
-  <div class="grid-overlay"></div>
   
   <main class="page">
     <header>
@@ -493,139 +407,119 @@
 
       <div class="seller-badge">
         <span></span>
-        Vitrine Digital de Catálogos
+        Vitrine de Catálogos / Acesso Parceiro
       </div>
     </header>
 
     <section class="hero" aria-labelledby="titulo-principal">
       <div class="hero-content">
-        <div class="eyebrow">Catálogos Sem Preço</div>
+        <div class="eyebrow">Equipamento de Alta Performance</div>
         <h1 id="titulo-principal">Explore os catálogos da <strong>Chumbada Oficial</strong></h1>
         <p>
-          Uma vitrine limpa e sem preços ideal para apresentar produtos diretamente para os seus clientes, lojistas e equipe comercial. Selecione uma das linhas abaixo para conferir os modelos.
+          Uma vitrine limpa e sem preços desenvolvida para apresentar nossos produtos diretamente aos seus clientes, lojistas e equipe comercial. Selecione um dos segmentos abaixo para visualizar os modelos.
         </p>
         <div class="hero-actions">
-          <a class="primary-link" href="#catalogos">Ver catálogos</a>
-          <a class="secondary-link" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Site oficial</a>
+          <a class="primary-link" href="#catalogos">Ver Catálogos</a>
+          <a class="secondary-link" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Site Oficial</a>
         </div>
       </div>
 
-      <aside class="hero-panel" aria-label="Resumo dos catálogos disponíveis">
-        <div class="panel-inner">
-          <div class="panel-number">5</div>
-          <div class="panel-text">
-            <h2>Catálogos integrados</h2>
-            <p>Iscas, anzóis, óculos, acessórios, chumbadas e jig heads estruturados de forma dinâmica, rápida e limpa para ajudar suas vendas.</p>
-          </div>
-        </div>
-      </aside>
+      <div class="hero-logo-panel" aria-label="Logotipo Chumbada Oficial">
+        <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Logo Chumbada Oficial" />
+      </div>
     </section>
 
     <section id="catalogos" class="catalog-grid" aria-label="Lista de catálogos">
       <!-- ANZÓIS -->
       <article class="catalog-card">
-        <div class="card-content">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M12 3c3.5 3.2 5.2 6.1 5.2 9.1A5.2 5.2 0 0 1 12 17.3a5.2 5.2 0 0 1-5.2-5.2C6.8 9.1 8.5 6.2 12 3Z" />
-              <path d="M12 17.3v3.7" />
-              <path d="M9.8 21h4.4" />
-            </svg>
+        <a href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de anzóis">
+          <div class="card-image-box">
+            <img src="assets/anzois.png" alt="Anzóis Chumbada Oficial" loading="lazy" />
           </div>
-          <h3>Catálogo de Anzóis</h3>
-          <p>Consulte a linha completa de anzóis Premium Quimipoint e modelos padrão da Chumbada Oficial.</p>
-          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener">
+        </a>
+        <div class="card-content">
+          <h3>Anzóis</h3>
+          <p>Consulte a linha completa de anzóis Premium Quimipoint e modelos padrão desenvolvidos para alta resistência.</p>
+          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
-            <span>→</span>
+            <span class="arrow">→</span>
           </a>
         </div>
       </article>
 
       <!-- ISCAS -->
       <article class="catalog-card">
-        <div class="card-content">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M3 12c2.8-4 6.3-6 10.5-6 3.2 0 5.7 1.4 7.5 4.1-1.8 2.7-4.3 4.1-7.5 4.1C9.3 14.2 5.8 13.5 3 12Z" />
-              <path d="M18.2 9.3 22 7v6l-3.8-2.3" />
-              <path d="M8 11.8h.01" />
-            </svg>
+        <a href="https://mlxjack.github.io/catalogo-de-iscas-chumbada-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de iscas">
+          <div class="card-image-box">
+            <img src="assets/iscas.png" alt="Iscas Chumbada Oficial" loading="lazy" />
           </div>
-          <h3>Catálogo de Iscas</h3>
-          <p>Veja as opções de iscas soft baits, tamanhos, embalagens e modelos disponíveis.</p>
-          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-iscas-chumbada-sem-preco/" target="_blank" rel="noopener">
+        </a>
+        <div class="card-content">
+          <h3>Iscas Soft</h3>
+          <p>Veja a linha profissional de iscas soft baits com alta atratividade, formatos, tamanhos e cores disponíveis.</p>
+          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-iscas-chumbada-sem-preco/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
-            <span>→</span>
+            <span class="arrow">→</span>
           </a>
         </div>
       </article>
 
       <!-- ACESSÓRIOS -->
       <article class="catalog-card">
-        <div class="card-content">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M4 7h16" />
-              <path d="M7 7v13" />
-              <path d="M17 7v13" />
-              <path d="M6 20h12" />
-              <path d="M9 11h6" />
-              <path d="M10 3h4l1 4H9l1-4Z" />
-            </svg>
+        <a href="https://mlxjack.github.io/catalogo-de-acessorios-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de acessórios">
+          <div class="card-image-box">
+            <img src="assets/acessorios.png" alt="Acessórios Chumbada Oficial" loading="lazy" />
           </div>
-          <h3>Catálogo de Acessórios</h3>
-          <p>Acesse suportes, snaps, organizadores e demais acessórios oficiais da marca.</p>
-          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-acessorios-sem-preco/" target="_blank" rel="noopener">
+        </a>
+        <div class="card-content">
+          <h3>Acessórios</h3>
+          <p>Acesse suportes, snaps rápidos, organizadores e outros acessórios essenciais projetados por pescadores.</p>
+          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-acessorios-sem-preco/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
-            <span>→</span>
+            <span class="arrow">→</span>
           </a>
         </div>
       </article>
 
       <!-- ÓCULOS -->
       <article class="catalog-card">
-        <div class="card-content">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="6" cy="15" r="4"/>
-              <circle cx="18" cy="15" r="4"/>
-              <path d="M14 15a2 2 0 0 0-4 0"/>
-              <path d="M2.5 13 5 7c.7-1.3 1.4-2 3-2"/>
-              <path d="M21.5 13 19 7c-.7-1.3-1.5-2-3-2"/>
-            </svg>
+        <a href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de óculos">
+          <div class="card-image-box">
+            <img src="assets/oculos.png" alt="Óculos Polarizados Chumbada Oficial" loading="lazy" />
           </div>
-          <h3>Catálogo de Óculos</h3>
-          <p>Confira nossa linha de óculos de sol polarizados, desenvolvidos para proteção e visibilidade na água.</p>
-          <a class="card-button" href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener">
+        </a>
+        <div class="card-content">
+          <h3>Óculos Polarizados</h3>
+          <p>Linha de óculos de sol polarizados de alto desempenho para proteção UV e máxima visibilidade sob a água.</p>
+          <a class="card-link" href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
-            <span>→</span>
+            <span class="arrow">→</span>
           </a>
         </div>
       </article>
 
       <!-- CHUMBADAS E JIG HEADS -->
       <article class="catalog-card">
-        <div class="card-content">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z" />
-              <path d="M12 6c-3 4-6 7.5-6 11a6 6 0 1 0 12 0c0-3.5-3-7-6-11z" />
-            </svg>
+        <a href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener" aria-label="Acessar catálogo de chumbadas e jig heads">
+          <div class="card-image-box">
+            <img src="assets/chumbadas.png" alt="Chumbadas e Jig Heads Chumbada Oficial" loading="lazy" />
           </div>
-          <h3>Chumbadas e Jig Heads</h3>
-          <p>Veja a variedade de gramaturas, modelos e formatos de chumbas e jig heads da nossa linha.</p>
-          <a class="card-button" href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener">
+        </a>
+        <div class="card-content">
+          <h3>Chumbadas & Jig Heads</h3>
+          <p>A maior variedade de chumbadas técnicas e jig heads de precisão com formatos e pesos balanceados para arremesso.</p>
+          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
-            <span>→</span>
+            <span class="arrow">→</span>
           </a>
         </div>
       </article>
     </section>
 
-    <div class="footer-note">
-      <p><strong>Chumbada Oficial</strong> — Feito por pescador, para pescador.</p>
-      <p>Selecione um catálogo para abrir os modelos sem preço em uma nova aba.</p>
-    </div>
+    <footer class="footer-note">
+      <p><strong>Chumbada Oficial</strong> — Feito de pescador para pescador.</p>
+      <p>Selecione um segmento para abrir o catálogo em uma nova aba.</p>
+    </footer>
   </main>
 </body>
 </html>
