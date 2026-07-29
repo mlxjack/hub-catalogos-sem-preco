@@ -395,6 +395,45 @@
         text-align: left;
       }
     }
+
+    /* ---------- Busca global de produtos ---------- */
+    .product-search { margin: 0 0 64px; }
+    .ps-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+    .ps-head h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; }
+    .ps-hint { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+    .ps-field { position: relative; display: flex; align-items: center; border: 1px solid var(--border-dark); background: var(--bg); transition: var(--transition); }
+    .ps-field:focus-within { box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.18); border-color: var(--accent); }
+    .ps-field > svg { flex: none; margin-left: 18px; color: var(--text-secondary); }
+    .ps-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 16px; color: var(--text-primary); padding: 20px 16px; }
+    .ps-field input::placeholder { color: var(--text-secondary); }
+    .ps-field input:disabled { cursor: progress; }
+    .ps-clear { flex: none; display: none; margin-right: 12px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--bg-alt); color: var(--text-primary); font-size: 20px; line-height: 1; cursor: pointer; transition: var(--transition); }
+    .ps-clear:hover { background: var(--accent); color: #fff; }
+    .ps-field.has-value .ps-clear { display: block; }
+    .ps-results { display: none; flex-direction: column; border: 1px solid var(--border); border-top: 0; max-height: 60vh; overflow-y: auto; }
+    .ps-results.open { display: flex; }
+    .ps-item { display: flex; align-items: center; gap: 16px; padding: 12px 18px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
+    .ps-item:last-child { border-bottom: 0; }
+    .ps-item:hover, .ps-item.active { background: var(--bg-alt); }
+    .ps-item.active { box-shadow: inset 3px 0 0 var(--accent); }
+    .ps-thumb { flex: none; width: 56px; height: 56px; object-fit: contain; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; }
+    .ps-thumb.ps-empty { display: grid; place-items: center; font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); }
+    .ps-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+    .ps-name { font-weight: 600; font-size: 15px; line-height: 1.25; }
+    .ps-name mark { background: rgba(255, 77, 0, 0.16); color: inherit; border-radius: 2px; padding: 0 1px; }
+    .ps-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .ps-cat { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border); padding: 3px 7px; }
+    .ps-price { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent); }
+    .ps-go { flex: none; color: var(--text-secondary); font-size: 18px; transition: var(--transition); }
+    .ps-item:hover .ps-go, .ps-item.active .ps-go { color: var(--accent); transform: translateX(4px); }
+    .ps-status { display: none; padding: 22px 18px; border: 1px solid var(--border); border-top: 0; font-size: 14px; color: var(--text-secondary); }
+    .ps-status.on { display: block; }
+    .ps-more { padding: 12px 18px; border-top: 1px solid var(--border); background: var(--bg-alt); font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+    @media (max-width: 640px) {
+      .ps-field input { font-size: 15px; padding: 17px 12px; }
+      .ps-thumb { width: 46px; height: 46px; }
+      .ps-go { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -429,10 +468,30 @@
       </div>
     </section>
 
+    <section class="product-search" id="busca" aria-labelledby="busca-titulo" hidden>
+      <div class="ps-head">
+        <h2 id="busca-titulo">Buscar produto</h2>
+        <p class="ps-hint" id="psHint"></p>
+      </div>
+
+      <div class="ps-field" id="psField">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <input id="psInput" type="search" autocomplete="off" spellcheck="false" disabled
+               placeholder="Carregando produtos..."
+               role="combobox" aria-expanded="false" aria-controls="psResults" aria-autocomplete="list" />
+        <button class="ps-clear" id="psClear" type="button" aria-label="Limpar busca">&times;</button>
+      </div>
+
+      <div class="ps-results" id="psResults" role="listbox" aria-label="Produtos encontrados"></div>
+      <p class="ps-status" id="psStatus" role="status" aria-live="polite"></p>
+    </section>
+
     <section id="catalogos" class="catalog-grid" aria-label="Lista de catálogos">
       <!-- ANZÓIS -->
       <article class="catalog-card">
-        <a href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de anzóis">
+        <a href="https://anzois.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de anzóis">
           <div class="card-image-box">
             <img src="assets/anzois.png" alt="Anzóis Chumbada Oficial" loading="lazy" />
           </div>
@@ -440,7 +499,7 @@
         <div class="card-content">
           <h3>Anzóis</h3>
           <p>Consulte a linha completa de anzóis Premium Quimipoint e modelos padrão desenvolvidos para alta resistência.</p>
-          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-anzois-sem-preco/" target="_blank" rel="noopener">
+          <a class="card-link" href="https://anzois.chumbada.com.br/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
             <span class="arrow">→</span>
           </a>
@@ -483,7 +542,7 @@
 
       <!-- ÓCULOS -->
       <article class="catalog-card">
-        <a href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener" aria-label="Acessar catálogo de óculos">
+        <a href="https://oculos.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de óculos">
           <div class="card-image-box">
             <img src="assets/oculos.png" alt="Óculos Polarizados Chumbada Oficial" loading="lazy" />
           </div>
@@ -491,7 +550,7 @@
         <div class="card-content">
           <h3>Óculos Polarizados</h3>
           <p>Linha de óculos de sol polarizados de alto desempenho para proteção UV e máxima visibilidade sob a água.</p>
-          <a class="card-link" href="https://mlxjack.github.io/oculos-chumbada-sem-preco/" target="_blank" rel="noopener">
+          <a class="card-link" href="https://oculos.chumbada.com.br/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
             <span class="arrow">→</span>
           </a>
@@ -500,7 +559,7 @@
 
       <!-- CHUMBADAS E JIG HEADS -->
       <article class="catalog-card">
-        <a href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener" aria-label="Acessar catálogo de chumbadas e jig heads">
+        <a href="https://chumbadas.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de chumbadas e jig heads">
           <div class="card-image-box">
             <img src="assets/chumbadas.png" alt="Chumbadas e Jig Heads Chumbada Oficial" loading="lazy" />
           </div>
@@ -508,7 +567,7 @@
         <div class="card-content">
           <h3>Chumbadas & Jig Heads</h3>
           <p>A maior variedade de chumbadas técnicas e jig heads de precisão com formatos e pesos balanceados para arremesso.</p>
-          <a class="card-link" href="https://mlxjack.github.io/catalogo-de-chumbadas-e-jig-heads/" target="_blank" rel="noopener">
+          <a class="card-link" href="https://chumbadas.chumbada.com.br/" target="_blank" rel="noopener">
             <span>Acessar catálogo</span>
             <span class="arrow">→</span>
           </a>
@@ -521,5 +580,255 @@
       <p>Selecione um segmento para abrir o catálogo em uma nova aba.</p>
     </footer>
   </main>
+  <script>
+  (function () {
+    'use strict';
+
+    var MAX_RESULTS = 8;
+    var section = document.getElementById('busca');
+    var field = document.getElementById('psField');
+    var input = document.getElementById('psInput');
+    var clearBtn = document.getElementById('psClear');
+    var results = document.getElementById('psResults');
+    var status = document.getElementById('psStatus');
+    var hint = document.getElementById('psHint');
+
+    var index = null;   // { catalogs, products }
+    var matches = [];
+    var activeIdx = -1;
+
+    // Remove acentos para que "oculos" encontre "Óculos" e "anzol" encontre "Anzól".
+    function norm(s) {
+      return String(s || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+    }
+
+    function tokenize(s) {
+      return norm(s).split(/[^a-z0-9°]+/).filter(Boolean);
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // Pontua um produto contra os termos digitados. Retorna 0 se algum termo não casar.
+    function score(product, tokens, rawQuery) {
+      var name = product._n;                       // nome normalizado (pré-computado)
+      var hay = product._h;                        // nome + categoria + keywords
+      var total = 1;   // base positiva: chegar aqui já significa match válido
+
+      for (var i = 0; i < tokens.length; i++) {
+        var t = tokens[i];
+        if (hay.indexOf(t) === -1) return 0;       // AND: todo termo precisa aparecer
+
+        if (name.indexOf(t) === 0) total += 220;             // nome começa com o termo
+        else if (name.indexOf(' ' + t) !== -1) total += 120; // termo inicia uma palavra
+        else if (name.indexOf(t) !== -1) total += 60;        // termo no meio do nome
+        else total += 12;                                    // só nas keywords
+      }
+
+      if (name === rawQuery) total += 1200;
+      else if (name.indexOf(rawQuery) === 0) total += 500;
+      else if (name.indexOf(rawQuery) !== -1) total += 260;
+
+      // Desempate: nomes curtos primeiro. O clamp garante que o desempate nunca
+      // zere um match real — sem ele, um acerto apenas por SKU era descartado.
+      total -= Math.min(name.length, 60) * 0.4;
+      return Math.max(total, 0.001);
+    }
+
+    function search(query) {
+      var tokens = tokenize(query);
+      if (!tokens.length) return [];
+      var raw = norm(query).trim();
+      var out = [];
+
+      for (var i = 0; i < index.products.length; i++) {
+        var p = index.products[i];
+        var s = score(p, tokens, raw);
+        if (s > 0) out.push({ p: p, s: s });
+      }
+
+      out.sort(function (a, b) {
+        return b.s - a.s || a.p.n.localeCompare(b.p.n, 'pt-BR');
+      });
+      return out.map(function (r) { return r.p; });
+    }
+
+    // Destaca os trechos que casaram, sem quebrar o HTML do nome.
+    function highlight(name, tokens) {
+      var normName = norm(name);
+      var flags = new Array(name.length).fill(false);
+
+      tokens.forEach(function (t) {
+        var from = 0, at;
+        while ((at = normName.indexOf(t, from)) !== -1) {
+          for (var i = at; i < at + t.length && i < flags.length; i++) flags[i] = true;
+          from = at + t.length;
+        }
+      });
+
+      var html = '', open = false;
+      for (var i = 0; i < name.length; i++) {
+        if (flags[i] && !open) { html += '<mark>'; open = true; }
+        else if (!flags[i] && open) { html += '</mark>'; open = false; }
+        html += escapeHtml(name[i]);
+      }
+      return html + (open ? '</mark>' : '');
+    }
+
+    function productUrl(p) {
+      var cat = index.catalogs[p.c];
+      return cat.url.replace(/\/$/, '') + '/' + cat.path + encodeURIComponent(p.s);
+    }
+
+    function render(query) {
+      var tokens = tokenize(query);
+      results.innerHTML = '';
+      activeIdx = -1;
+
+      if (!tokens.length) {
+        matches = [];
+        close();
+        return;
+      }
+
+      matches = search(query);
+
+      if (!matches.length) {
+        results.classList.remove('open');
+        input.setAttribute('aria-expanded', 'false');
+        status.textContent = 'Nenhum produto encontrado para "' + query.trim() + '".';
+        status.classList.add('on');
+        return;
+      }
+
+      status.classList.remove('on');
+      var shown = matches.slice(0, MAX_RESULTS);
+
+      shown.forEach(function (p, i) {
+        var cat = index.catalogs[p.c];
+        var a = document.createElement('a');
+        a.className = 'ps-item';
+        a.id = 'ps-opt-' + i;
+        a.setAttribute('role', 'option');
+        a.setAttribute('aria-selected', 'false');
+        a.href = productUrl(p);
+        a.target = '_blank';
+        a.rel = 'noopener';
+
+        a.innerHTML =
+          (p.i
+            ? '<img class="ps-thumb" src="' + escapeHtml(p.i) + '" alt="" loading="lazy" />'
+            : '<span class="ps-thumb ps-empty">sem foto</span>') +
+          '<span class="ps-text">' +
+            '<span class="ps-name">' + highlight(p.n, tokens) + '</span>' +
+            '<span class="ps-meta">' +
+              '<span class="ps-cat">' + escapeHtml(cat.label) + '</span>' +
+              (p.p ? '<span class="ps-price">' + escapeHtml(p.p) + '</span>' : '') +
+            '</span>' +
+          '</span>' +
+          '<span class="ps-go" aria-hidden="true">&rarr;</span>';
+
+        results.appendChild(a);
+      });
+
+      if (matches.length > shown.length) {
+        var more = document.createElement('div');
+        more.className = 'ps-more';
+        more.textContent = 'Mostrando ' + shown.length + ' de ' + matches.length +
+          ' — refine a busca para ver os demais';
+        results.appendChild(more);
+      }
+
+      results.classList.add('open');
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function close() {
+      results.classList.remove('open');
+      results.innerHTML = '';
+      status.classList.remove('on');
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      activeIdx = -1;
+    }
+
+    function setActive(i) {
+      var items = results.querySelectorAll('.ps-item');
+      if (!items.length) return;
+      if (activeIdx >= 0 && items[activeIdx]) {
+        items[activeIdx].classList.remove('active');
+        items[activeIdx].setAttribute('aria-selected', 'false');
+      }
+      activeIdx = (i + items.length) % items.length;
+      var el = items[activeIdx];
+      el.classList.add('active');
+      el.setAttribute('aria-selected', 'true');
+      el.scrollIntoView({ block: 'nearest' });
+      input.setAttribute('aria-activedescendant', el.id);
+    }
+
+    input.addEventListener('input', function () {
+      field.classList.toggle('has-value', input.value.length > 0);
+      render(input.value);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var items = results.querySelectorAll('.ps-item');
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIdx + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIdx - 1); }
+      else if (e.key === 'Enter') {
+        // Enter sem seleção abre o primeiro resultado.
+        var target = activeIdx >= 0 ? items[activeIdx] : items[0];
+        if (target) { e.preventDefault(); target.click(); }
+      } else if (e.key === 'Escape') {
+        if (results.classList.contains('open')) { e.preventDefault(); close(); }
+        else { input.value = ''; field.classList.remove('has-value'); }
+      }
+    });
+
+    clearBtn.addEventListener('click', function () {
+      input.value = '';
+      field.classList.remove('has-value');
+      close();
+      input.focus();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!section.contains(e.target)) close();
+    });
+
+    // ---- carga do índice ----
+    fetch('search-index.json', { cache: 'no-cache' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        index = data;
+        // Pré-computa os campos normalizados uma única vez (evita recalcular por tecla).
+        index.products.forEach(function (p) {
+          p._n = norm(p.n);
+          var cat = index.catalogs[p.c] || {};
+          p._h = norm(p.n + ' ' + (cat.label || '') + ' ' + (cat.aliases || '') + ' ' + (p.k || ''));
+        });
+
+        var nCat = Object.keys(index.catalogs).length;
+        hint.textContent = index.products.length + ' produtos · ' + nCat + ' catálogos';
+        input.disabled = false;
+        input.placeholder = 'Busque por nome, modelo, peso ou SKU...';
+        section.hidden = false;
+      })
+      .catch(function (err) {
+        // Sem índice a busca não funciona — melhor esconder a seção do que exibi-la quebrada.
+        console.error('Busca indisponível:', err);
+        section.remove();
+      });
+  })();
+  </script>
 </body>
 </html>
