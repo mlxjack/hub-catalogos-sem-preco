@@ -115,6 +115,26 @@
       100% { transform: scale(0.9); opacity: 0.6; }
     }
 
+    /* Banner promocional temporário */
+    .promo-banner {
+      display: block;
+      width: 100%;
+      line-height: 0;
+      margin-bottom: 40px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f2340; /* aproxima o fundo escuro da arte, evita "sobra" branca nas laterais */
+    }
+    .promo-banner img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: contain; /* nunca corta o banner (cover cortava o texto de topo/rodapé) */
+    }
+    @media (max-width: 640px) {
+      .promo-banner img { height: 150px; }
+    }
+
     /* Hero Section */
     .hero {
       display: grid;
@@ -449,6 +469,24 @@
         Vitrine de Catálogos / Acesso Parceiro
       </div>
     </header>
+
+    <!-- Banner promocional temporário: some sozinho após o horário em EXPIRES,
+         não precisa de novo deploy nem de remoção manual pra sumir na hora certa. -->
+    <a id="promoBanner" class="promo-banner" href="https://chumbadas.com.br/" target="_blank" rel="noopener" aria-label="Promoção Dia do Cliente">
+      <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/dia_do_cliente_2.png?v=1789475113" alt="Dia do Cliente — Chumbada Oficial" />
+    </a>
+    <script>
+      (function () {
+        var EXPIRES = new Date('2026-09-15T23:59:59-03:00').getTime();
+        var el = document.getElementById('promoBanner');
+        if (!el) return;
+        function check() {
+          if (Date.now() >= EXPIRES) { el.remove(); return; }
+          setTimeout(check, Math.min(EXPIRES - Date.now() + 500, 60000));
+        }
+        check();
+      })();
+    </script>
 
     <section class="hero" aria-labelledby="titulo-principal">
       <div class="hero-content">
