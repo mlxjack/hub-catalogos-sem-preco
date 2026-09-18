@@ -101,6 +101,31 @@
       text-transform: uppercase;
     }
 
+    .header-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .selecao-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .selecao-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
     .seller-badge span {
       width: 6px;
       height: 6px;
@@ -455,6 +480,11 @@
       .ps-go { display: none; }
     }
   </style>
+  <script>
+    window.MINHA_SELECAO_MODE = 'pdf';
+    window.MINHA_SELECAO_HUB_HOSTNAME = 'catalogos.chumbada.com.br';
+  </script>
+  <script src="https://selecao.chumbada.com.br/client.js" defer></script>
 </head>
 <body>
   
@@ -464,9 +494,12 @@
         <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Chumbada Oficial" />
       </a>
 
-      <div class="seller-badge">
-        <span></span>
-        Vitrine de Catálogos / Acesso Parceiro
+      <div class="header-actions">
+        <a class="selecao-link" href="#/minha-selecao">Minha Seleção</a>
+        <div class="seller-badge">
+          <span></span>
+          Vitrine de Catálogos / Acesso Parceiro
+        </div>
       </div>
     </header>
 
