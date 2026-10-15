@@ -290,12 +290,14 @@ function fromOculos(cfg, catalogDir) {
     .filter((p) => p.sku)
     .map((p) => {
       const label = oculosVariantLabel(p.color);
+      // "Modelo 5" no nome faz a busca por número de modelo ranquear o óculos certo
+      const num = /^Modelo \d+$/.test(p.modelo || '') ? ` ${p.modelo}` : '';
       return {
         slug: p.sku,
-        name: squish(`${p.title} ${p.model}${label ? ` — ${label}` : ''}`),
+        name: squish(`${p.title} ${p.model}${num}${label ? ` — ${label}` : ''}`),
         image: absoluteImage(p.img, cfg.url),
         price: p.price ? fmtBRL(toNumber(p.price)) : '',
-        keywords: squish([p.model, p.color, p.sku, p.tag].join(' ')),
+        keywords: squish([p.model, p.modelo, p.color, p.sku, p.tag].join(' ')),
       };
     });
 
