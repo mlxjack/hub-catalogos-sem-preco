@@ -45,6 +45,10 @@ const CATALOGS = {
       label: 'Óculos', dir: 'oculos-chumbada-sem-preco',
       url: 'https://oculos.chumbada.com.br/', path: '#/produto/', kind: 'inline-oculos',
     },
+    pesqueiro: {
+      label: 'Pesqueiro', dir: 'pesqueiro-sem-preco',
+      url: 'https://pesqueiro.chumbada.com.br/', path: 'produtos/', kind: 'pesqueiro',
+    },
   },
   'com-preco': {
     anzois: {
@@ -80,6 +84,7 @@ const CATALOG_ALIASES = {
   iscas: 'isca iscas soft baits shad grub camarao camarão minhoca lambari artificial',
   acessorios: 'acessorio acessorios acessório acessórios suporte snap girador rotor chicote alicate',
   chumbadas: 'chumbada chumbadas peso pesos lastro jig head jighead olhal poita',
+  pesqueiro: 'pesqueiro pesqueiros tilapia tilápia carpa tambaqui pacu piapara',
   oculos: 'oculos óculos oculós polarizado polarizados polarizada sol solar lente lentes armacao armação uv protecao proteção',
 };
 
@@ -311,7 +316,32 @@ function fromOculos(cfg, catalogDir) {
   return items;
 }
 
+
+/**
+ * Pesqueiro: site próprio (Vite) cujos produtos estão em src/data/products.json.
+ * As páginas de produto são /produtos/<handle>/ (sem rota por hash).
+ */
+async function fromPesqueiro(cfg, catalogDir) {
+  const file = join(catalogDir, 'src', 'data', 'products.json');
+  if (!existsSync(file)) throw new Error(`products.json não encontrado em ${file}`);
+  const data = JSON.parse(readFileSync(file, 'utf8'));
+  return data.produtos.map((p) => {
+    const prices = p.variantes.map((v) => v.price).filter((x) => x > 0);
+    const min = prices.length ? Math.min(...prices) : null;
+    const max = prices.length ? Math.max(...prices) : null;
+    const vals = Object.values(p.opcoes || {}).flat();
+    return {
+      slug: p.handle,
+      name: p.titulo,
+      image: p.foto ? absoluteImage(p.foto, cfg.url) : '',
+      price: priceLabel(min, max),
+      keywords: squish([(p.tags || []).join(' '), p.gancho, vals.join(' '), p.variantes.map((v) => v.sku).filter(Boolean).slice(0, 12).join(' ')].join(' ')),
+    };
+  });
+}
+
 const EXTRACTORS = {
+  pesqueiro: fromPesqueiro,
   csv: fromCSV,
   datajs: fromDataJs,
   'inline-chumbadas': fromChumbadas,
