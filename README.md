@@ -16,6 +16,7 @@ O hub equivalente **com preços** é [`cat-logos-chumbada-oficial`](https://gith
 | Acessórios | `acessorios.chumbada.com.br` | `catalogo-de-acessorios-v2` |
 | Chumbadas & Jig Heads | `chumbadas.chumbada.com.br` | `catalogo-de-chumbadas-e-jig-heads` |
 | Óculos | `oculos.chumbada.com.br` | `oculos-chumbada-sem-preco` |
+| Pesqueiro | `pesqueiro.chumbada.com.br` | `pesqueiro-chumbada-oficial-sem-preco` (pasta local `pesqueiro-sem-preco`) |
 
 ## Busca global
 
@@ -28,6 +29,7 @@ Cada resultado aponta para o produto específico:
 
 | Catálogo | Formato do link |
 | --- | --- |
+| Pesqueiro | `<domínio>/produtos/<handle>` |
 | Anzóis, Iscas | `<domínio>/#/product/<handle>` |
 | Acessórios, Chumbadas | `<domínio>/#/produto/<slug>` |
 | Óculos | `<domínio>/#/produto/<sku>` |
