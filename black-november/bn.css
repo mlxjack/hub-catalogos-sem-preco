@@ -1,0 +1,144 @@
+/* Black November 2026 - tema preto + banner. Tudo escopado em html.bn (so existe na janela da promo). */
+
+/* ---------- Banner ---------- */
+html.bn .bn-banner { background:#000; color:#fff; padding:0 0 10px; position:relative; z-index:5; border-bottom:1px solid rgba(255,255,255,.1); }
+html.bn .bn-stage { position:relative; max-width:1500px; margin:0 auto; aspect-ratio:2000/667; overflow:hidden; background:#000; }
+html.bn .bn-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .6s ease; user-select:none; -webkit-user-drag:none; }
+html.bn .bn-slide.on { opacity:1; }
+html.bn .bn-nav { position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.25); background:rgba(0,0,0,.55); color:#fff; font-size:24px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0 0 3px; opacity:0; transition:opacity .2s; }
+html.bn .bn-stage:hover .bn-nav, html.bn .bn-nav:focus-visible { opacity:1; }
+html.bn .bn-prev { left:10px; } html.bn .bn-next { right:10px; }
+html.bn .bn-dots { display:flex; justify-content:center; gap:8px; padding:10px 0 2px; }
+html.bn .bn-dot { width:9px; height:9px; padding:0; border-radius:50%; border:0; background:rgba(255,255,255,.3); cursor:pointer; transition:all .2s; }
+html.bn .bn-dot.on { background:#ff6a00; width:24px; border-radius:6px; }
+html.bn .bn-rules { margin:6px auto 0; max-width:1200px; padding:0 16px; text-align:center; font:500 12px/1.6 Inter,system-ui,sans-serif; color:#b5b5b5; }
+html.bn .bn-rules b { color:#ff7a1a; font-weight:700; }
+@media (max-width:640px) { html.bn .bn-nav { display:none; } html.bn .bn-rules { font-size:11px; } }
+@media (prefers-reduced-motion:reduce) { html.bn .bn-slide { transition:none; } }
+
+/* ---------- Familia A: catalogos React (iscas, anzois, acessorios) ---------- */
+html.bn {
+  --bg-primary:#000; --bg-secondary:#0c0c0c; --bg-tertiary:#1a1a1a;
+  --color-text-primary:#f5f5f5; --color-text-secondary:#d6d6d6; --color-text-muted:#a0a0a0;
+  --border-color:rgba(255,255,255,.12); --border-color-hover:rgba(255,255,255,.26);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.6); --shadow-md:0 6px 18px rgba(0,0,0,.6); --shadow-lg:0 14px 36px rgba(0,0,0,.7);
+  --color-brand:#ff6a00; --color-brand-rgb:255,106,0; --color-brand-hover:#ff8a24;
+}
+html.bn, html.bn body { background:#000; color:#f5f5f5; color-scheme:dark; }
+
+/* ---------- Familia B: chumbadas ---------- */
+html.bn { --bg:#000; --ink:#f5f5f5; --ink2:#d6d6d6; --muted:#a0a0a0; --card:#101010; --line:#262626; --line2:#1a1a1a; --soft:#2a1606; --soft2:#3a1d08; }
+
+/* ---------- Familia C: oculos ---------- */
+html.bn { --bg-color:#000; --text-dark:#f5f5f5; --text-light:#a8a8a8; --card-bg:#101010; }
+
+/* ---------- Pesqueiro (ja escuro, azul-marinho -> preto) ---------- */
+html.bn { --bg2:#0b0b0b; --cream:#f5f5f5; }
+
+/* ---- Familia A: fundos/hardcodes claros do template ---- */
+html.bn .main-header { background:rgba(8,8,8,.92); border-bottom-color:rgba(255,255,255,.1); }
+html.bn .logo-link, html.bn .nav-menu, html.bn .menu-dropdown-wrapper, html.bn .search-wrapper, html.bn .panel, html.bn .tools,
+html.bn .pesqueiro-toggle { background:#141414; border-color:rgba(255,255,255,.14); color:#f5f5f5; }
+html.bn .logo-link { background:#fff; }                       /* o logo tem fundo claro proprio */
+html.bn .nav-item, html.bn .nav-item:hover { background:transparent; }
+html.bn .nav-item.active { background:rgba(255,106,0,.16); color:#ff8a24; }
+html.bn .hero { background:radial-gradient(circle at 80% 30%, rgba(255,106,0,.14) 0%, transparent 60%), #000; }
+html.bn .hero-title { color:#fff; }
+html.bn .hero-desc { color:#cfcfcf; }
+html.bn .badge-tag { background:rgba(255,106,0,.14); color:#ff8a24; border-color:rgba(255,106,0,.3); }
+html.bn .hero-card-media, html.bn .product-card-media { background:#fff; }   /* fotos de produto tem fundo branco */
+html.bn .product-card, html.bn .hero-card, html.bn .product-card-body { background:#101010; border-color:rgba(255,255,255,.12); }
+html.bn input, html.bn select, html.bn textarea { background:#141414; color:#f5f5f5; border-color:rgba(255,255,255,.18); }
+html.bn input::placeholder { color:#8a8a8a; }
+
+/* ---- Catalogo de iscas com preco: bloco "cores fora de padrao (30%)" ---- */
+html.bn .bn-offpattern-pct { display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:#ff6a00; color:#fff; font-size:12px; font-weight:800; vertical-align:middle; }
+html.bn .bn-offpattern-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+html.bn .bn-offpattern-chip { cursor:pointer; font-family:inherit; transition:background .15s, border-color .15s, box-shadow .15s; display:inline-flex; align-items:center; gap:8px; padding:6px 12px 6px 6px; border:1px solid rgba(255,106,0,.45); border-radius:999px; background:rgba(255,106,0,.08); color:#f5f5f5; font-size:13px; font-weight:600; }
+html.bn .bn-offpattern-dot { width:22px; height:22px; border-radius:50%; background:#3a3a3a center/cover no-repeat; border:1px solid rgba(255,255,255,.2); }
+html.bn .bn-offpattern-note { margin:10px 0 0; font-size:12.5px; line-height:1.5; color:#a8a8a8; }
+html.bn .selecao-qty-stepper { background:#141414; border-color:rgba(255,255,255,.18); }
+html.bn .selecao-qty-stepper button { background:#1f1f1f; color:#fff; }
+html.bn .selecao-qty-stepper span { color:#f5f5f5; }
+html.bn .gallery-main, html.bn .thumb-btn { background:#fff; }
+
+/* ---- Familia B: chumbadas e jig heads (HTML unico) ---- */
+html.bn .toolbar { background:rgba(0,0,0,.92); border-bottom-color:#262626; }
+html.bn .filters { background:#161616; }
+html.bn .chip { color:#cfcfcf; }
+html.bn .chip:hover { color:#fff; }
+html.bn .chip.active { background:#2b2b2b; color:#fff; box-shadow:none; }
+html.bn .chip.chipPesq:not(.active) { background:transparent; color:#ff8a24; }
+html.bn .chipPesq.active { background:#ea580c; color:#fff; }
+html.bn .search input { background:#141414; color:#f5f5f5; border-color:#2a2a2a; }
+html.bn .pill { background:#1f1f1f; color:#dcdcdc; }
+html.bn .pill.more { background:#ff6a00; color:#fff; }
+html.bn .card:hover { border-color:#3a3a3a; box-shadow:0 18px 40px rgba(0,0,0,.6); }
+html.bn .empty, html.bn .availability, html.bn .group-container, html.bn .var-row, html.bn .tableWrap, html.bn table,
+html.bn .opt, html.bn .backBtn, html.bn .selecao-option:hover, html.bn .backBtn:hover { background:#101010; border-color:#2a2a2a; color:#f5f5f5; }
+html.bn th { background:#1a1a1a; color:#f5f5f5; } html.bn td { color:#e6e6e6; border-color:#242424; }
+html.bn .opt:hover, html.bn .var-row:hover { border-color:#ff6a00; }
+html.bn .opt.active, html.bn .opt.sel, html.bn .opt[aria-pressed="true"], html.bn .opt[aria-checked="true"] { background:rgba(255,106,0,.16); border-color:#ff6a00; color:#fff; }
+html.bn .viewToggle { background:#161616; }
+html.bn .viewToggle button { color:#cfcfcf; }
+html.bn .viewToggle button.active { background:#ff6a00; color:#fff; }
+html.bn .thumb { background:#f4f5f7; }  /* fotos de produto: bloco claro */
+html.bn .desc { color:#b9b9b9; }
+
+/* ---- Familia C: oculos ---- */
+html.bn .modelo { color:#cfcfcf; }
+html.bn .copy-btn { background:#1c1c1c; border-color:#333; color:#f5f5f5; }
+html.bn .copy-btn:hover { background:#2a2a2a; }
+html.bn .copy-btn.copied { background:#4CAF50; border-color:#4CAF50; color:#fff; }
+
+/* ---- Acessorios (redesign.css tem bloco de tema claro; aqui voltamos ao escuro so na promo) ---- */
+html.bn { --ink:#000; --fg:#f5f5f5; --panel:#0d0d0d; --line:rgba(255,255,255,.12); --teal:#19b5c4; --eco:#2fd08c; --navy:#000; }
+html.bn .main-header { background:rgba(0,0,0,.72); }
+html.bn .main-header.is-scrolled { background:rgba(0,0,0,.94); }
+html.bn .brand-name, html.bn .nav-item:hover, html.bn .nav-item.active, html.bn .btn-nav { color:#f5f5f5; }
+html.bn .btn-nav:hover { color:#fff; }
+html.bn .nav-item-eco, html.bn .nav-item-eco:hover, html.bn .nav-item-eco.active { color:var(--eco); }
+html.bn .btn-secondary { background:rgba(255,255,255,.05); color:#fff; border:1px solid rgba(255,255,255,.2); }
+html.bn .btn-secondary:hover { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.4); }
+html.bn .hero-card { background:#0d0d0d; box-shadow:0 0 0 1px rgba(255,255,255,.12); }
+html.bn .hero-line .line-path { stroke:rgba(255,255,255,.2); }
+html.bn .scroll-cue { border-color:rgba(255,255,255,.3); }
+html.bn .panel { background:rgba(12,12,12,.92); }
+html.bn .search-input { background:#141414; color:#fff; border-color:rgba(255,255,255,.12); }
+html.bn .search-input:focus { background:#1c1c1c; border-color:var(--teal); }
+html.bn .chip { background:#141414; border-color:rgba(255,255,255,.16); color:#d6d6d6; }
+html.bn .chip.active { background:#ff6a00; border-color:#ff6a00; color:#fff; }
+html.bn .product-card { background:#101010; box-shadow:none; }
+html.bn .product-card:hover { box-shadow:0 26px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,106,0,.3); }
+html.bn .card-swatch, html.bn .swatch-btn { border-color:rgba(255,255,255,.25); }
+html.bn .thumb-btn { background:#fff; border-color:rgba(255,255,255,.15); }
+html.bn .meta-chip { background:rgba(255,255,255,.06); }
+html.bn .var-btn { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.16); }
+html.bn .selecao-qty-stepper { background:#141414; color:#fff; }
+html.bn .selecao-qty-stepper button { color:#fff; background:#1f1f1f; }
+html.bn .specs-table tr:nth-child(odd) { background:rgba(255,255,255,.04); }
+html.bn .size-table th { background:rgba(255,255,255,.08); color:#fff; }
+html.bn .main-footer { background:#050505; }
+html.bn .footer-title { color:#fff; }
+html.bn .brand-sub { color:#ff8a24; }
+html.bn body { background:#000; }
+html.bn .brand-text { background:transparent; }
+
+/* ---- Hubs (portais) ---- */
+html.bn { --bg-alt:#0c0c0c; --text-primary:#f5f5f5; --text-secondary:#a8a8a8; --border:#262626; --border-dark:#f5f5f5; --bg-2:#0a0a0a; --card-2:#1a1a1a; }
+html.bn .logo-link:has(.brand-text) { background:transparent; border-color:transparent; }
+
+/* ---- Iscas sem preco: selos de % (sem valores) ---- */
+html.bn .bn-ribbon { position:absolute; top:10px; left:10px; z-index:3; padding:4px 10px; border-radius:999px; background:#ff6a00; color:#fff; font-size:12px; font-weight:800; letter-spacing:.02em; box-shadow:0 4px 12px rgba(0,0,0,.35); }
+html.bn .swatch-btn.bn-swatch-promo { position:relative; box-shadow:0 0 0 2px #ff6a00; }
+html.bn .bn-swatch-tag { position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); padding:1px 5px; border-radius:6px; background:#ff6a00; color:#fff; font-size:9.5px; font-weight:800; line-height:1.3; pointer-events:none; white-space:nowrap; }
+html.bn .card-swatch.bn-swatch-promo { box-shadow:0 0 0 2px #ff6a00; }
+
+/* ---- Pesqueiro: nav fixa (86px) por cima do topo da pagina ---- */
+html.bn body:has(> header.nav) .bn-banner { padding-top:88px; }
+
+/* Mobile: o botao fixo "Voltar aos catalogos" (Minha Selecao) nao cobre o banner */
+@media (max-width:640px) { html.bn body:has(.ms-hub-link) .bn-banner { padding-top:52px; } }
+html.bn body:has(> header.nav) .bn-banner { padding-top:88px; }
+html.bn .bn-offpattern-chip:hover { border-color:#ff6a00; background:rgba(255,106,0,.18); }
+html.bn .bn-offpattern-chip.active { border-color:#ff6a00; background:#ff6a00; color:#111; box-shadow:0 0 0 2px rgba(255,106,0,.35); }
