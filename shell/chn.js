@@ -323,7 +323,7 @@ nav a.sub:hover{color:#fff}\
       else if (e.key === 'ArrowUp') { e.preventDefault(); setAct(act - 1); }
       else if (e.key === 'Enter') {
         var its = res.querySelectorAll('.it'), t = its[act >= 0 ? act : 0];
-        if (t) { e.preventDefault(); location.href = t.href; }
+        if (t) { e.preventDefault(); location.href = t.href; dismissSearch(); }
       } else if (e.key === 'Escape') {
         if (!panel.hidden) { e.preventDefault(); closePanel(); } else { input.value = ''; input.blur(); }
       }
@@ -345,6 +345,11 @@ nav a.sub:hover{color:#fff}\
         input.value = ''; closePanel();
       }
     }
+    // Escolher um resultado fecha a busca: nos catálogos de página única só o #hash muda,
+    // então sem isso o painel ficava por cima do produto aberto.
+    function dismissSearch() { if (mobileSearch) setMobileSearch(false); else { closePanel(); input.value = ''; } input.blur(); }
+    res.addEventListener('click', function (e) { if (e.target.closest('a.it')) setTimeout(dismissSearch, 0); });
+    window.addEventListener('hashchange', function () { if (!panel.hidden) dismissSearch(); });
     function setDrawer(on) {
       drawer.classList.toggle('open', on);
       mb.innerHTML = on ? ICON_X : ICON_MENU;
