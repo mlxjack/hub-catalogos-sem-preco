@@ -68,6 +68,7 @@
   g.textContent =
     'chumbada-nav{display:block;position:sticky;top:0;z-index:2147483000;min-height:68px;background:#0a3a47}' +
     'html{scroll-padding-top:84px}' +
+    '@media(max-width:960px){chumbada-nav{min-height:101px}html{scroll-padding-top:116px}}' +
     '.ms-hub-link{display:none !important}' +   /* "Voltar aos catálogos" da Minha Seleção: o menu já faz isso */
     (hideSel ? hideSel + '{display:none !important}' : '');
   document.head.appendChild(g);
@@ -99,6 +100,7 @@ nav{display:flex;align-items:center;gap:2px;flex:1;min-width:0}\
 nav a{position:relative;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:99px;font-size:13.5px;font-weight:600;letter-spacing:.01em;color:rgba(255,255,255,.82);white-space:nowrap;transition:background .2s,color .2s}\
 nav a:hover{background:rgba(255,255,255,.1);color:#fff}\
 nav a[aria-current=page]{background:#ff4d00;color:#fff;box-shadow:0 4px 14px rgba(255,77,0,.4)}\
+nav a.mo{display:none}\
 nav a.sub{font-weight:500;font-size:12.5px;color:#ffb48f}\
 nav a.sub:hover{color:#fff}\
 .sp{flex:1}\
@@ -143,19 +145,20 @@ nav a.sub:hover{color:#fff}\
   nav a{padding:0 9px;font-size:13px}\
 }\
 @media (max-width:960px){\
-  nav,.sf,.ext{display:none}\
-  .ib{display:inline-flex}\
-  .in{padding:0 8px 0 16px;gap:0}\
+  .sf,.ext{display:none}\
+  #mb,.drawer{display:none !important}\
+  .in{flex-wrap:wrap;height:auto;padding:0 8px 0 14px;gap:0}\
+  .logo{height:56px;margin-right:0;padding:0}\
+  .logo img{height:38px}\
   .sp{flex:1}\
+  .ext.sel{display:inline-flex;height:36px;padding:0 13px;margin:0 4px 0 0;font-size:12.5px}\
+  .ib{display:inline-flex}\
+  nav{order:5;flex:0 0 calc(100% + 22px);width:calc(100% + 22px);margin:0 -8px 0 -14px;padding:0 28px 10px 14px;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}\
+  nav::-webkit-scrollbar{display:none}\
+  nav a{flex:none;height:34px;padding:0 13px;font-size:13px;background:rgba(255,255,255,.08)}\
+  nav a.sub{background:rgba(255,138,82,.14)}\
+  nav a.mo{display:inline-flex;color:rgba(255,255,255,.65)}\
   .panel{border-radius:0 0 16px 16px}\
-  .drawer.open{display:block;position:absolute;left:0;right:0;top:100%;background:#0a3541;box-shadow:0 24px 50px rgba(4,24,30,.4);padding:8px 16px 20px;max-height:calc(100vh - 68px);overflow-y:auto}\
-  .drawer a{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 6px;border-bottom:1px solid rgba(255,255,255,.1);font-size:16px;font-weight:600;color:rgba(255,255,255,.9)}\
-  .drawer a[aria-current=page]{color:#ff8a52}\
-  .drawer a[aria-current=page]::after{content:"•";margin-left:8px}\
-  .drawer a.sub{font-size:14px;font-weight:500;color:#ffb48f;padding-left:20px}\
-  .drawer .row{display:flex;gap:10px;margin-top:16px}\
-  .drawer .row a{flex:1;justify-content:center;border:1px solid rgba(255,255,255,.28);border-radius:99px;min-height:46px;font-size:14px}\
-  .drawer .row a.sel{border-color:#ff4d00;color:#ffb48f}\
 }\
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}\
 ';
@@ -195,7 +198,7 @@ nav a.sub:hover{color:#fff}\
       '<style>' + CSS + '</style>' +
       '<div class="bar"><div class="in">' +
         '<a class="logo" href="' + (isHub ? base : V.hub) + '" aria-label="Chumbada Oficial — Catálogos, página inicial"' + (isHub ? ' aria-current="page"' : '') + '><img src="' + logoSrc + '" alt="" height="48"><span class="lt"><b>Chumbada</b><small>Catálogos</small></span></a>' +
-        '<nav aria-label="Catálogos">' + linksHtml() + '</nav>' +
+        '<nav aria-label="Catálogos">' + linksHtml() + '<a class="mo" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Loja ↗</a></nav>' +
         '<div class="sp"></div>' +
         '<label class="sf" role="search">' + ICON_SEARCH +
           '<input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar produto..." aria-label="Buscar produto em todos os catálogos" role="combobox" aria-expanded="false" aria-controls="res"><kbd aria-hidden="true">/</kbd></label>' +
@@ -336,9 +339,9 @@ nav a.sub:hover{color:#fff}\
       var sf = root.querySelector('.sf');
       if (on) {
         setDrawer(false);
-        sf.style.cssText = 'display:flex;position:absolute;left:12px;right:12px;top:10px;width:auto;height:44px;background:#fff;color:#111;border-color:#ff4d00;z-index:2';
+        sf.style.cssText = 'display:flex;position:absolute;left:12px;right:12px;top:6px;width:auto;height:44px;background:#fff;color:#111;border-color:#ff4d00;z-index:2';
         sb.innerHTML = ICON_X; sb.setAttribute('aria-label', 'Fechar busca');
-        sb.style.cssText = 'position:relative;z-index:3';
+        sb.style.cssText = 'position:relative;z-index:3;color:#0a3541';
         input.focus();
       } else {
         sf.style.cssText = ''; sb.style.cssText = ''; sb.innerHTML = ICON_SEARCH; sb.setAttribute('aria-label', 'Buscar produto');
@@ -384,6 +387,10 @@ nav a.sub:hover{color:#fff}\
     var host = build();
     document.body.insertBefore(host, document.body.firstChild);
     document.documentElement.classList.add('chn-on');
+    requestAnimationFrame(function () {
+      var nv = host.shadowRoot.querySelector('nav'), cur = nv && nv.querySelector('[aria-current=page]');
+      if (cur && nv.scrollWidth > nv.clientWidth) nv.scrollLeft = cur.offsetLeft - (nv.clientWidth - cur.offsetWidth) / 2;
+    });
     window.dispatchEvent(new CustomEvent('chn:ready', { detail: { host: host } }));
     // Qualquer página pode pedir foco na busca: window.dispatchEvent(new Event('chn:focus-search'))
     window.addEventListener('chn:focus-search', function () {
