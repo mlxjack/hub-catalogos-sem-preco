@@ -4,480 +4,204 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Catálogos de Produtos | Chumbada Oficial</title>
-  <meta name="description" content="Portal de catálogos da Chumbada Oficial para lojistas e parceiros. Acesse a linha completa de anzóis, iscas, acessórios, óculos de sol, chumbadas e jig heads." />
-
-  <!-- Google Fonts: Outfit (Athletic Headings), Inter (Body Text), JetBrains Mono (Technical Details) -->
+  <meta name="description" content="Portal de catálogos da Chumbada Oficial: anzóis, iscas, acessórios, óculos, chumbadas, jig heads e a linha Pesqueiro. Feito por pescador, para pescador." />
+  <meta name="theme-color" content="#0a3a47" />
+  <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/fotos/praia-pesca.webp" fetchpriority="high">
 
   <style>
     :root {
-      --bg: #ffffff;
-      --bg-alt: #f6f6f6;
-      --text-primary: #111111;
-      --text-secondary: #767676;
-      --accent: #ff4d00; /* Nike-style bright athletic orange */
-      --accent-hover: #d43f00;
-      --border: #e5e5e5;
-      --border-dark: #111111;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      --petrol-950: #051f27;
+      --petrol-900: #072b35;
+      --petrol-800: #0a3a47;
+      --petrol-700: #0f4d5d;
+      --petrol-100: #e3f0f3;
+      --petrol-50: #f1f7f8;
+      --orange: #ff4d00;
+      --orange-600: #e04300;
+      --orange-300: #ff8a52;
+      --ink: #0d1f26;
+      --muted: #5a6b72;
+      --line: #dbe5e8;
+      --display: 'Outfit', system-ui, sans-serif;
+      --body: 'Inter', system-ui, sans-serif;
+      --ease: cubic-bezier(.16, 1, .3, 1);
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--body); color: var(--ink); background: #fff; -webkit-font-smoothing: antialiased; overflow-x: hidden; line-height: 1.55; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 6px; }
+    .brand, .featured, .news, .pcard { color: var(--ink); }
+    .wrap { width: min(1200px, calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; border-radius: 2px; }
+    h1, h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.02; }
+    h2 { font-size: clamp(30px, 4.4vw, 50px); font-weight: 800; margin: 14px 0 16px; }
+    .lead { font-size: clamp(16px, 1.7vw, 18.5px); color: var(--muted); max-width: 620px; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 28px; border-radius: 99px; font-weight: 700; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; transition: transform .3s var(--ease), background .25s, color .25s, border-color .25s, box-shadow .3s; }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--orange); color: #fff; box-shadow: 0 10px 28px rgba(255, 77, 0, .38); }
+    .btn-primary:hover { background: var(--orange-600); transform: translateY(-3px); box-shadow: 0 16px 34px rgba(255, 77, 0, .5); }
+    .btn-ghost { color: #fff; border: 1.5px solid rgba(255, 255, 255, .4); }
+    .btn-ghost:hover { background: #fff; color: var(--petrol-800); border-color: #fff; transform: translateY(-3px); }
+    .btn .arr { transition: transform .3s var(--ease); }
+    .btn:hover .arr { transform: translateX(5px); }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    /* ---------- Reveal ---------- */
+    .rv { opacity: 0; transform: translateY(32px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+    .rv.in { opacity: 1; transform: none; }
+    .js-off .rv { opacity: 1; transform: none; }
 
-    body {
-      min-height: 100vh;
-      font-family: var(--font-body);
-      color: var(--text-primary);
-      background-color: var(--bg);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    /* ---------- Hero ---------- */
+    .hb-hero { position: relative; isolation: isolate; color: #fff; background: radial-gradient(900px 520px at 78% 18%, rgba(255, 77, 0, .22), transparent 60%), linear-gradient(160deg, var(--petrol-900) 0%, var(--petrol-800) 55%, #0c4a5a 100%); overflow: hidden; padding: clamp(56px, 8vw, 104px) 0 0; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 5vw, 72px); align-items: center; padding-bottom: clamp(90px, 11vw, 150px); }
+    .hb-hero h1 { font-size: clamp(44px, 7.2vw, 92px); font-weight: 900; text-transform: uppercase; margin: 18px 0 22px; }
+    .hb-hero h1 em { font-style: normal; color: var(--orange); display: block; }
+    .hb-hero p.lead { color: rgba(255, 255, 255, .8); margin-bottom: 34px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 14px 38px; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, .16); }
+    .hero-stats b { display: block; font-family: var(--display); font-size: 30px; font-weight: 800; line-height: 1; }
+    .hero-stats span { font-size: 12.5px; color: rgba(255, 255, 255, .65); letter-spacing: .04em; }
+    .hb-hero-photo { position: relative; justify-self: center; width: min(100%, 440px); aspect-ratio: 4 / 5; }
+    .hb-hero-photo .frame { position: absolute; inset: 0; border-radius: 28px 120px 28px 28px; overflow: hidden; box-shadow: 0 40px 80px rgba(0, 0, 0, .45); transform: rotate(2.2deg); }
+    .hb-hero-photo img { width: 100%; height: 118%; object-fit: cover; object-position: 50% 38%; will-change: transform; }
+    .hb-hero-photo::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 2px solid var(--orange); border-radius: 28px 120px 28px 28px; transform: rotate(2.2deg); opacity: .8; z-index: -1; }
+    .badge { position: absolute; left: -22px; bottom: 36px; background: #fff; color: var(--petrol-800); border-radius: 16px; padding: 12px 18px; box-shadow: 0 18px 40px rgba(0, 0, 0, .3); font-weight: 700; font-size: 13px; line-height: 1.3; animation: bob 5s ease-in-out infinite; }
+    .badge b { display: block; font-family: var(--display); font-size: 22px; color: var(--orange); }
+    @keyframes bob { 50% { transform: translateY(-9px); } }
 
-    .page {
-      width: min(1200px, calc(100% - 48px));
-      margin: 0 auto;
-      padding: 24px 0 60px;
-    }
+    .bubbles { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+    .bubbles i { position: absolute; bottom: -30px; width: var(--s); height: var(--s); border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .28); left: var(--x); animation: rise var(--t) linear infinite; animation-delay: var(--dl); }
+    @keyframes rise { to { transform: translateY(-640px) translateX(24px); opacity: 0; } }
 
-    /* Header Styling */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      padding: 20px 0;
-      background-color: transparent;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 60px;
-    }
+    .waves { position: absolute; left: 0; right: 0; bottom: -1px; height: clamp(60px, 9vw, 120px); overflow: hidden; line-height: 0; }
+    .waves svg { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; }
+    .waves .w1 { animation: drift 22s linear infinite; opacity: .35; }
+    .waves .w2 { animation: drift 15s linear infinite reverse; opacity: .6; }
+    .waves .w3 { animation: drift 30s linear infinite; }
+    @keyframes drift { to { transform: translateX(-50%); } }
 
-    .logo-box {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
+    /* ---------- Marca ---------- */
+    .brand { padding: clamp(70px, 10vw, 130px) 0; background: #fff; }
+    .brand-grid { display: grid; grid-template-columns: .95fr 1.05fr; gap: clamp(32px, 6vw, 90px); align-items: center; }
+    .collage { position: relative; aspect-ratio: 1 / 1.05; }
+    .collage figure { position: absolute; overflow: hidden; border-radius: 22px; box-shadow: 0 30px 60px rgba(7, 43, 53, .22); }
+    .collage figure img { width: 100%; height: 100%; object-fit: cover; }
+    .collage .c1 { left: 0; top: 0; width: 62%; height: 74%; }
+    .collage .c2 { right: 0; bottom: 0; width: 52%; height: 58%; border: 8px solid #fff; border-radius: 26px; }
+    .collage .ring { position: absolute; right: 6%; top: 4%; width: 22%; aspect-ratio: 1; border-radius: 50%; border: 2px dashed var(--orange); animation: spin 28s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .pillars { display: grid; gap: 22px; margin-top: 34px; }
+    .pillar { display: grid; grid-template-columns: 52px 1fr; gap: 18px; align-items: start; }
+    .pillar .ic { width: 52px; height: 52px; border-radius: 16px; background: var(--petrol-100); color: var(--petrol-800); display: grid; place-items: center; transition: background .3s, color .3s, transform .4s var(--ease); }
+    .pillar:hover .ic { background: var(--orange); color: #fff; transform: rotate(-6deg) scale(1.06); }
+    .pillar h3 { font-size: 19px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 3px; }
+    .pillar p { font-size: 15px; color: var(--muted); }
 
-    /* Display original silver logo on dark background */
-    .logo-box img {
-      height: 36px;
-      width: auto;
-      display: block;
-      transition: opacity 0.2s ease;
-    }
+    /* ---------- Destaques ---------- */
+    .featured { padding: clamp(64px, 9vw, 110px) 0; background: var(--petrol-50); }
+    .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 34px; }
+    .sec-head h2 { margin-bottom: 0; }
+    .rail-btns { display: flex; gap: 10px; }
+    .rail-btns button { width: 50px; height: 50px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; transition: all .25s var(--ease); }
+    .rail-btns button:hover { background: var(--orange); border-color: var(--orange); color: #fff; transform: scale(1.06); }
+    .rail { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px max(20px, calc((100vw - 1200px) / 2)) 30px; scrollbar-width: none; }
+    .rail::-webkit-scrollbar { display: none; }
+    .pcard { flex: none; width: min(272px, 74vw); scroll-snap-align: start; background: #fff; border-radius: 22px; border: 1px solid var(--line); overflow: hidden; transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .3s; display: flex; flex-direction: column; }
+    .pcard:hover { transform: translateY(-8px); box-shadow: 0 26px 50px rgba(7, 43, 53, .16); border-color: var(--orange); }
+    .pcard .pimg { aspect-ratio: 1; background: #fff; display: grid; place-items: center; padding: 18px; overflow: hidden; }
+    .pcard .pimg img { width: 100%; height: 100%; object-fit: contain; transition: transform .6s var(--ease); }
+    .pcard:hover .pimg img { transform: scale(1.09) rotate(-1.5deg); }
+    .pcard .pbody { padding: 16px 20px 22px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .tag { align-self: flex-start; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--petrol-800); background: var(--petrol-100); padding: 4px 10px; border-radius: 99px; }
+    .pcard h3 { font-size: 17px; font-weight: 700; letter-spacing: -.015em; line-height: 1.2; flex: 1; }
+    .pcard .go { font-size: 13px; font-weight: 700; color: var(--orange); display: inline-flex; gap: 6px; }
+    .pcard .go span { transition: transform .3s var(--ease); }
+    .pcard:hover .go span { transform: translateX(5px); }
+    .pcard .price { font-size: 13px; font-weight: 700; color: var(--orange-600); }
 
-    .logo-box:hover img {
-      opacity: 0.8;
-    }
+    /* ---------- Faixa de foto ---------- */
+    .band { position: relative; height: clamp(320px, 46vw, 520px); overflow: hidden; background: var(--petrol-900); isolation: isolate; }
+    .band img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; object-fit: cover; object-position: 50% 30%; opacity: .62; will-change: transform; }
+    .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5, 31, 39, .92), rgba(5, 31, 39, .25) 70%); }
+    .band .wrap { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; color: #fff; }
+    .band h2 { max-width: 640px; font-size: clamp(32px, 5.4vw, 64px); text-transform: uppercase; font-weight: 900; }
+    .band h2 em { font-style: normal; color: var(--orange); }
 
-    /* Technical sportswear label style badge */
-    .seller-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
-      border: 1px solid var(--border-dark);
-      background-color: transparent;
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
+    /* ---------- Catálogos ---------- */
+    .catalogs { position: relative; padding: clamp(70px, 10vw, 130px) 0; background: linear-gradient(180deg, var(--petrol-900), var(--petrol-950)); color: #fff; overflow: hidden; }
+    .catalogs .lead { color: rgba(255, 255, 255, .72); }
+    .catalogs h2 { color: #fff; }
+    .cgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 46px; }
+    .ccard { position: relative; display: flex; flex-direction: column; background: #fff; color: var(--ink); border-radius: 26px; overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
+    .ccard:hover { transform: translateY(-10px); box-shadow: 0 34px 70px rgba(0, 0, 0, .45); }
+    .ccard .cimg { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; }
+    .ccard .cimg img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+    .ccard:hover .cimg img { transform: scale(1.08); }
+    .ccard .num { position: absolute; top: 16px; left: 16px; font-family: var(--display); font-weight: 800; font-size: 13px; background: var(--petrol-800); color: #fff; padding: 6px 12px; border-radius: 99px; }
+    .ccard .cb { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 8px; flex: 1; border-top: 1px solid var(--line); }
+    .ccard h3 { font-size: 24px; font-weight: 800; }
+    .ccard p { font-size: 14.5px; color: var(--muted); flex: 1; }
+    .ccard .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; font-size: 13px; font-weight: 700; }
+    .ccard .count { color: var(--muted); font-weight: 600; }
+    .ccard .open { display: inline-flex; align-items: center; gap: 8px; color: var(--orange); text-transform: uppercase; letter-spacing: .05em; }
+    .ccard .open i { font-style: normal; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #fff; transition: transform .4s var(--ease); }
+    .ccard:hover .open i { transform: translateX(6px) rotate(-45deg); }
+    .ccard::after { content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: var(--orange); transition: width .5s var(--ease); }
+    .ccard:hover::after { width: 100%; }
 
-    .header-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
+    /* ---------- Novidades ---------- */
+    .news { padding: clamp(64px, 9vw, 110px) 0; background: #fff; }
+    .ngrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+    .ncard { position: relative; min-height: 340px; border-radius: 24px; overflow: hidden; color: #fff; display: flex; align-items: flex-end; isolation: isolate; transition: transform .5s var(--ease); }
+    .ncard:hover { transform: translateY(-6px); }
+    .ncard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .8s var(--ease); }
+    .ncard:hover img { transform: scale(1.07); }
+    .ncard::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 15%, rgba(5, 31, 39, .92)); }
+    .ncard div { padding: 26px; }
+    .ncard .tag { background: var(--orange); color: #fff; margin-bottom: 12px; }
+    .ncard h3 { font-size: 25px; font-weight: 800; margin-bottom: 6px; }
+    .ncard p { font-size: 14.5px; color: rgba(255, 255, 255, .85); }
 
-    .selecao-link {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 16px;
-      border: 1px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-    .selecao-link:hover {
-      background: var(--accent);
-      color: #fff;
-    }
+    /* ---------- Rodapé ---------- */
+    footer { background: var(--petrol-950); color: rgba(255, 255, 255, .75); padding: 70px 0 28px; }
+    .fgrid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; padding-bottom: 44px; border-bottom: 1px solid rgba(255, 255, 255, .12); }
+    footer img { height: 60px; width: auto; margin-bottom: 18px; }
+    footer h4 { font-family: var(--display); font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: #fff; margin-bottom: 16px; }
+    footer ul { list-style: none; display: grid; gap: 10px; font-size: 14.5px; }
+    footer li a { transition: color .2s, padding .3s var(--ease); }
+    footer li a:hover { color: var(--orange-300); padding-left: 6px; }
+    footer .fine { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 24px; font-size: 12.5px; color: rgba(255, 255, 255, .5); }
 
-    .seller-badge span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 1.8s infinite;
+    /* ---------- Responsivo ---------- */
+    @media (max-width: 960px) {
+      .hero-grid, .brand-grid { grid-template-columns: 1fr; }
+      .hb-hero-photo { width: min(100%, 360px); }
+      .hb-hero-photo .badge { left: -6px; }
+      .cgrid, .ngrid { grid-template-columns: repeat(2, 1fr); }
+      .collage { max-width: 520px; margin: 0 auto; width: 100%; }
+      .fgrid { grid-template-columns: 1fr 1fr; }
+      .fgrid > :first-child { grid-column: 1 / -1; }
     }
-
-    @keyframes pulse {
-      0% { transform: scale(0.9); opacity: 0.6; }
-      50% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(0.9); opacity: 0.6; }
+    @media (max-width: 620px) {
+      .cgrid, .ngrid { grid-template-columns: 1fr; }
+      .hero-cta .btn { flex: 1 1 100%; }
+      .rail-btns { display: none; }
+      .ccard h3 { font-size: 22px; }
+      .fgrid { grid-template-columns: 1fr; }
     }
-
-    /* Banner promocional temporário */
-    .promo-banner {
-      display: block;
-      width: 100%;
-      line-height: 0;
-      margin-bottom: 40px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #0f2340; /* aproxima o fundo escuro da arte, evita "sobra" branca nas laterais */
-    }
-    .promo-banner img {
-      display: block;
-      width: 100%;
-      height: 220px;
-      object-fit: contain; /* nunca corta o banner (cover cortava o texto de topo/rodapé) */
-    }
-    @media (max-width: 640px) {
-      .promo-banner img { height: 150px; }
-    }
-
-    /* Hero Section */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
-      gap: 60px;
-      align-items: center;
-      margin-bottom: 80px;
-    }
-
-    .hero-content {
-      padding-right: 20px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 16px;
-      font-family: var(--font-mono);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-family: var(--font-display);
-      font-size: clamp(38px, 5.5vw, 68px);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      color: var(--text-primary);
-    }
-
-    h1 strong {
-      color: var(--accent);
-      font-weight: 900;
-    }
-
-    .hero p {
-      max-width: 580px;
-      color: var(--text-secondary);
-      font-size: clamp(15px, 1.8vw, 17px);
-      line-height: 1.6;
-      margin-bottom: 36px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-    }
-
-    /* Pill Buttons (Nike Style) */
-    .primary-link,
-    .secondary-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 32px;
-      border-radius: 99px;
-      text-decoration: none;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: var(--transition);
-    }
-
-    .primary-link {
-      color: var(--bg);
-      background-color: var(--text-primary);
-      border: 1px solid var(--text-primary);
-    }
-
-    .primary-link:hover {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .secondary-link {
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-      background-color: transparent;
-    }
-
-    .secondary-link:hover {
-      border-color: var(--text-primary);
-      background-color: var(--bg-alt);
-      transform: translateY(-2px);
-    }
-
-    /* Hero Logo Panel */
-    .hero-logo-panel {
-      border: none;
-      background-color: transparent;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 280px;
-      height: 100%;
-    }
-
-    .hero-logo-panel img {
-      width: 100%;
-      max-width: 420px;
-      height: auto;
-      display: block;
-      filter: none;
-      transition: transform 0.4s ease;
-    }
-
-    .hero-logo-panel:hover img {
-      transform: scale(1.03);
-    }
-
-    /* Catalog Cards Grid */
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 32px;
-      margin-bottom: 80px;
-      margin-top: 40px;
-    }
-
-    .catalog-card {
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .catalog-card:hover {
-      border-color: var(--border-dark);
-    }
-
-    /* Card Image Container */
-    .card-image-box {
-      width: 100%;
-      aspect-ratio: 16 / 11;
-      background-color: var(--bg-alt);
-      overflow: hidden;
-      position: relative;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .card-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .catalog-card:hover .card-image-box img {
-      transform: scale(1.05);
-    }
-
-    /* Card Content */
-    .card-content {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .catalog-card h3 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      color: var(--text-primary);
-    }
-
-    .catalog-card p {
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 24px;
-      flex-grow: 1;
-    }
-
-    /* Clean Card CTA Link (Nike Style) */
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding-bottom: 2px;
-      border-bottom: 2px solid transparent;
-      width: fit-content;
-      transition: var(--transition);
-      margin-top: auto;
-    }
-
-    .card-link .arrow {
-      font-size: 15px;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .catalog-card:hover .card-link {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .catalog-card:hover .card-link .arrow {
-      transform: translateX(4px);
-    }
-
-    /* Footer note section */
-    .footer-note {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      padding: 32px 0;
-      border-top: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 12px;
-      font-family: var(--font-mono);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .footer-note strong {
-      color: var(--text-primary);
-    }
-
-    .footer-note p:last-child {
-      text-align: right;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 992px) {
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .hero-logo-panel {
-        min-height: auto;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 24px;
-        padding-bottom: 36px;
-        margin-bottom: 40px;
-      }
-      .seller-badge {
-        width: 100%;
-        justify-content: center;
-      }
-      .footer-note {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        text-align: left;
-      }
-      .footer-note p:last-child {
-        text-align: left;
-      }
-    }
-
-    /* ---------- Busca global de produtos ---------- */
-    .product-search { margin: 0 0 64px; }
-    .ps-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
-    .ps-head h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; }
-    .ps-hint { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
-    .ps-field { position: relative; display: flex; align-items: center; border: 1px solid var(--border-dark); background: var(--bg); transition: var(--transition); }
-    .ps-field:focus-within { box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.18); border-color: var(--accent); }
-    .ps-field > svg { flex: none; margin-left: 18px; color: var(--text-secondary); }
-    .ps-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 16px; color: var(--text-primary); padding: 20px 16px; }
-    .ps-field input::placeholder { color: var(--text-secondary); }
-    .ps-field input:disabled { cursor: progress; }
-    .ps-clear { flex: none; display: none; margin-right: 12px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--bg-alt); color: var(--text-primary); font-size: 20px; line-height: 1; cursor: pointer; transition: var(--transition); }
-    .ps-clear:hover { background: var(--accent); color: #fff; }
-    .ps-field.has-value .ps-clear { display: block; }
-    .ps-results { display: none; flex-direction: column; border: 1px solid var(--border); border-top: 0; max-height: 60vh; overflow-y: auto; }
-    .ps-results.open { display: flex; }
-    .ps-item { display: flex; align-items: center; gap: 16px; padding: 12px 18px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
-    .ps-item:last-child { border-bottom: 0; }
-    .ps-item:hover, .ps-item.active { background: var(--bg-alt); }
-    .ps-item.active { box-shadow: inset 3px 0 0 var(--accent); }
-    .ps-thumb { flex: none; width: 56px; height: 56px; object-fit: contain; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; }
-    .ps-thumb.ps-empty { display: grid; place-items: center; font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); }
-    .ps-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
-    .ps-name { font-weight: 600; font-size: 15px; line-height: 1.25; }
-    .ps-name mark { background: rgba(255, 77, 0, 0.16); color: inherit; border-radius: 2px; padding: 0 1px; }
-    .ps-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .ps-cat { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border); padding: 3px 7px; }
-    .ps-price { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent); }
-    .ps-go { flex: none; color: var(--text-secondary); font-size: 18px; transition: var(--transition); }
-    .ps-item:hover .ps-go, .ps-item.active .ps-go { color: var(--accent); transform: translateX(4px); }
-    .ps-status { display: none; padding: 22px 18px; border: 1px solid var(--border); border-top: 0; font-size: 14px; color: var(--text-secondary); }
-    .ps-status.on { display: block; }
-    .ps-more { padding: 12px 18px; border-top: 1px solid var(--border); background: var(--bg-alt); font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
-    @media (max-width: 640px) {
-      .ps-field input { font-size: 15px; padding: 17px 12px; }
-      .ps-thumb { width: 46px; height: 46px; }
-      .ps-go { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+      .rv { opacity: 1; transform: none; }
+      .hb-hero-photo img, .band img { transform: none !important; }
     }
   </style>
   <script>
@@ -485,438 +209,251 @@
     window.MINHA_SELECAO_HUB_HOSTNAME = 'catalogos.chumbada.com.br';
   </script>
   <script src="https://selecao.chumbada.com.br/client.js" defer></script>
-  <meta name="robots" content="noindex, nofollow">
+  <script src="./black-november/bn.js"></script>
+  <script src="shell/chn.js" defer data-selecao="1"></script>
 </head>
 <body>
-  
-  <main class="page">
-    <header>
-      <a class="logo-box" href="https://chumbadas.com.br/" target="_blank" rel="noopener" aria-label="Acessar site da Chumbada Oficial">
-        <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Chumbada Oficial" />
-      </a>
-
-      <div class="header-actions">
-        <a class="selecao-link" href="#/minha-selecao">Minha Seleção</a>
-        <div class="seller-badge">
-          <span></span>
-          Vitrine de Catálogos / Acesso Parceiro
+  <main>
+    <!-- HERO -->
+    <section class="hb-hero" aria-labelledby="titulo">
+      <div class="bubbles" aria-hidden="true">
+        <i style="--s:14px;--x:8%;--t:11s;--dl:0s"></i><i style="--s:22px;--x:22%;--t:14s;--dl:3s"></i><i style="--s:10px;--x:36%;--t:9s;--dl:1s"></i>
+        <i style="--s:18px;--x:52%;--t:13s;--dl:5s"></i><i style="--s:12px;--x:68%;--t:10s;--dl:2s"></i><i style="--s:26px;--x:84%;--t:15s;--dl:6s"></i><i style="--s:9px;--x:93%;--t:8s;--dl:4s"></i>
+      </div>
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Portal de catálogos</span>
+          <h1 id="titulo">Feito por pescador,<em>para pescador.</em></h1>
+          <p class="lead">Chumbadas, iscas, anzóis, acessórios e óculos reunidos em um só lugar. Navegue pelas linhas, encontre qualquer produto com a busca e mostre o portfólio completo aos seus clientes.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#catalogos">Explorar catálogos <span class="arr" aria-hidden="true">→</span></a>
+            <button class="btn btn-ghost" type="button" data-open-search>Buscar um produto <span class="arr" aria-hidden="true">/</span></button>
+          </div>
+          <div class="hero-stats" aria-label="Números do portfólio">
+            <div><b data-count="383">383</b><span>produtos</span></div>
+            <div><b data-count="6">6</b><span>catálogos</span></div>
+            <div><b>1 busca</b><span>para tudo</span></div>
+          </div>
+        </div>
+        <div class="hb-hero-photo">
+          <div class="frame"><img src="assets/fotos/praia-pesca.webp" alt="Pescador de agasalho laranja da Chumbada Oficial pescando na beira da praia" width="1600" height="2400" fetchpriority="high" data-parallax="-0.06"></div>
+          <div class="badge"><b>Pesca esportiva</b>Equipamento testado na água</div>
         </div>
       </div>
-    </header>
-
-    <!-- Banner promocional temporário: some sozinho após o horário em EXPIRES,
-         não precisa de novo deploy nem de remoção manual pra sumir na hora certa. -->
-    <a id="promoBanner" class="promo-banner" href="https://chumbadas.com.br/" target="_blank" rel="noopener" aria-label="Promoção Dia do Cliente">
-      <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/dia_do_cliente_2.png?v=1789475113" alt="Dia do Cliente — Chumbada Oficial" />
-    </a>
-    <script>
-      (function () {
-        var EXPIRES = new Date('2026-09-15T23:59:59-03:00').getTime();
-        var el = document.getElementById('promoBanner');
-        if (!el) return;
-        function check() {
-          if (Date.now() >= EXPIRES) { el.remove(); return; }
-          setTimeout(check, Math.min(EXPIRES - Date.now() + 500, 60000));
-        }
-        check();
-      })();
-    </script>
-
-    <section class="hero" aria-labelledby="titulo-principal">
-      <div class="hero-content">
-        <div class="eyebrow">Equipamento de Alta Performance</div>
-        <h1 id="titulo-principal">Explore os catálogos da <strong>Chumbada Oficial</strong></h1>
-        <p>
-          Uma vitrine limpa e sem preços desenvolvida para apresentar nossos produtos diretamente aos seus clientes, lojistas e equipe comercial. Selecione um dos segmentos abaixo para visualizar os modelos.
-        </p>
-        <div class="hero-actions">
-          <a class="primary-link" href="#catalogos">Ver Catálogos</a>
-          <a class="secondary-link" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Site Oficial</a>
-        </div>
-      </div>
-
-      <div class="hero-logo-panel" aria-label="Logotipo Chumbada Oficial">
-        <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Logo Chumbada Oficial" />
+      <div class="waves" aria-hidden="true">
+        <svg class="w1" viewBox="0 0 2880 120" preserveAspectRatio="none"><path fill="#fff" d="M0 60c120 40 240 40 360 0s240-40 360 0 240 40 360 0 240-40 360 0 240 40 360 0 240-40 360 0 240 40 360 0 240-40 360 0V120H0z"/></svg>
+        <svg class="w2" viewBox="0 0 2880 120" preserveAspectRatio="none"><path fill="#fff" d="M0 75c180 30 300 30 480-10s300-30 480 5 300 30 480-5 300-30 480 5 300 30 480-5V120H0z"/></svg>
+        <svg class="w3" viewBox="0 0 2880 120" preserveAspectRatio="none"><path fill="#fff" d="M0 92c240 22 360 22 600 0s360-22 600 0 360 22 600 0 360-22 600 0V120H0z"/></svg>
       </div>
     </section>
 
-    <section class="product-search" id="busca" aria-labelledby="busca-titulo" hidden>
-      <div class="ps-head">
-        <h2 id="busca-titulo">Buscar produto</h2>
-        <p class="ps-hint" id="psHint"></p>
+    <!-- MARCA -->
+    <section class="brand" id="marca" aria-labelledby="marca-t">
+      <div class="wrap brand-grid">
+        <div class="collage rv" aria-hidden="true">
+          <figure class="c1"><img src="assets/fotos/linha-carretilha.webp" alt="" loading="lazy" data-parallax="0.05"></figure>
+          <figure class="c2"><img src="assets/fotos/anzois-pacote.webp" alt="" loading="lazy" data-parallax="-0.05"></figure>
+          <span class="ring"></span>
+        </div>
+        <div>
+          <span class="eyebrow rv">Quem somos</span>
+          <h2 id="marca-t" class="rv">Equipamento pensado na beira d’água.</h2>
+          <p class="lead rv">A Chumbada Oficial nasceu do dia a dia do pescador. Cada chumbada, isca, anzol e acessório é desenvolvido, testado e ajustado por quem entende de pesca — para render mais em cada arremesso.</p>
+          <div class="pillars">
+            <div class="pillar rv"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/><path d="M12 6c-3 4-6 7.5-6 11a6 6 0 0 0 12 0c0-3.5-3-7-6-11z"/></svg></span><div><h3>Feito por pescador</h3><p>Do projeto à embalagem, a referência é a experiência real na água.</p></div></div>
+            <div class="pillar rv" style="--d:.08s"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><div><h3>Qualidade que se vê</h3><p>Acabamento, resistência e padronização em toda a linha.</p></div></div>
+            <div class="pillar rv" style="--d:.16s"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 4v5"/></svg></span><div><h3>Portfólio completo</h3><p>Seis linhas de produtos reunidas para lojistas, pesqueiros e distribuidores.</p></div></div>
+          </div>
+        </div>
       </div>
-
-      <div class="ps-field" id="psField">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
-        </svg>
-        <input id="psInput" type="search" autocomplete="off" spellcheck="false" disabled
-               placeholder="Carregando produtos..."
-               role="combobox" aria-expanded="false" aria-controls="psResults" aria-autocomplete="list" />
-        <button class="ps-clear" id="psClear" type="button" aria-label="Limpar busca">&times;</button>
-      </div>
-
-      <div class="ps-results" id="psResults" role="listbox" aria-label="Produtos encontrados"></div>
-      <p class="ps-status" id="psStatus" role="status" aria-live="polite"></p>
     </section>
 
-    <section id="catalogos" class="catalog-grid" aria-label="Lista de catálogos">
-      <!-- ANZÓIS -->
-      <article class="catalog-card">
-        <a href="https://anzois.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de anzóis">
-          <div class="card-image-box">
-            <img src="assets/anzois.png" alt="Anzóis Chumbada Oficial" loading="lazy" />
-          </div>
+    <!-- DESTAQUES -->
+    <section class="featured" id="destaques" aria-labelledby="dest-t">
+      <div class="wrap sec-head">
+        <div><span class="eyebrow">Produtos em destaque</span><h2 id="dest-t">Seleção para começar.</h2></div>
+        <div class="rail-btns"><button type="button" id="railPrev" aria-label="Produtos anteriores">←</button><button type="button" id="railNext" aria-label="Próximos produtos">→</button></div>
+      </div>
+      <div class="rail" id="rail" tabindex="0" aria-label="Produtos em destaque">
+        <a class="pcard" href="https://anzois.chumbada.com.br/#/product/anzol-akita-kitsune-premium-quimipoint">
+          <div class="pimg"><img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/5-akita-kitsune-quimipoint-medida.jpg?v=1765979240" alt="Anzol Akita Kitsune Premium QUIMIPOINT (Pct com 15)" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Anzóis &amp; Jig Heads</span><h3>Anzol Akita Kitsune Premium QUIMIPOINT</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Anzóis</h3>
-          <p>Consulte a linha completa de anzóis Premium Quimipoint e modelos padrão desenvolvidos para alta resistência.</p>
-          <a class="card-link" href="https://anzois.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- ISCAS -->
-      <article class="catalog-card">
-        <a href="https://iscas.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de iscas">
-          <div class="card-image-box">
-            <img src="assets/iscas.png" alt="Iscas Chumbada Oficial" loading="lazy" />
-          </div>
+        <a class="pcard" href="https://anzois.chumbada.com.br/#/product/jig-head-de-olho-60">
+          <div class="pimg"><img src="https://anzois.chumbada.com.br/jig-de-olho-60-amarelo.jpg" alt="Jig Head de Olho 60°" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Anzóis &amp; Jig Heads</span><h3>Jig Head de Olho 60°</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Iscas Soft</h3>
-          <p>Veja a linha profissional de iscas soft baits com alta atratividade, formatos, tamanhos e cores disponíveis.</p>
-          <a class="card-link" href="https://iscas.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- ACESSÓRIOS -->
-      <article class="catalog-card">
-        <a href="https://acessorios.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de acessórios">
-          <div class="card-image-box">
-            <img src="assets/acessorios.png" alt="Acessórios Chumbada Oficial" loading="lazy" />
-          </div>
+        <a class="pcard" href="https://iscas.chumbada.com.br/#/product/isca-artificial-camarao-articulado">
+          <div class="pimg"><img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/IMG_7214_4.jpg?v=1743016782" alt="Isca Artificial Camarão Articulado" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Iscas</span><h3>Isca Artificial Camarão Articulado</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Acessórios</h3>
-          <p>Acesse suportes, snaps rápidos, organizadores e outros acessórios essenciais projetados por pescadores.</p>
-          <a class="card-link" href="https://acessorios.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- ÓCULOS -->
-      <article class="catalog-card">
-        <a href="https://oculos.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de óculos">
-          <div class="card-image-box">
-            <img src="assets/oculos.png" alt="Óculos Polarizados Chumbada Oficial" loading="lazy" />
-          </div>
+        <a class="pcard" href="https://iscas.chumbada.com.br/#/product/isca-artificial-pitu">
+          <div class="pimg"><img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/capa_37a7c298-1aa1-4e05-931a-3a920276c111.jpg?v=1725027275" alt="Isca Artificial Pitu" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Iscas</span><h3>Isca Artificial Pitu</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Óculos Polarizados</h3>
-          <p>Linha de óculos de sol polarizados de alto desempenho para proteção UV e máxima visibilidade sob a água.</p>
-          <a class="card-link" href="https://oculos.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- CHUMBADAS E JIG HEADS -->
-      <article class="catalog-card">
-        <a href="https://chumbadas.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo de chumbadas e jig heads">
-          <div class="card-image-box">
-            <img src="assets/chumbadas.png" alt="Chumbadas e Jig Heads Chumbada Oficial" loading="lazy" />
-          </div>
+        <a class="pcard" href="https://acessorios.chumbada.com.br/#/produto/alicate-de-pesca">
+          <div class="pimg"><img src="https://acessorios.chumbada.com.br/assets/img/shopify/alicate-capa.png" alt="Alicate de Pesca" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Acessórios</span><h3>Alicate de Pesca</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Chumbadas & Jig Heads</h3>
-          <p>A maior variedade de chumbadas técnicas e jig heads de precisão com formatos e pesos balanceados para arremesso.</p>
-          <a class="card-link" href="https://chumbadas.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- PESQUEIRO -->
-      <article class="catalog-card">
-        <a href="https://pesqueiro.chumbada.com.br/" target="_blank" rel="noopener" aria-label="Acessar catálogo da linha pesqueiro">
-          <div class="card-image-box">
-            <img src="assets/pesqueiro.png" alt="Linha pesqueiro Chumbada Oficial" loading="lazy" />
-          </div>
+        <a class="pcard" href="https://acessorios.chumbada.com.br/#/produto/linha-multi-verax-4x-300m">
+          <div class="pimg"><img src="https://acessorios.chumbada.com.br/assets/img/shopify/pesca-12.jpg" alt="Linha Multi Verax 4X 300m" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Acessórios</span><h3>Linha Multi Verax 4X 300m</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
         </a>
-        <div class="card-content">
-          <h3>Pesqueiro</h3>
-          <p>Chumbadas, anzóis, atrativos, snaps, destorcedores e acessórios de margem pensados para a pesca em pesqueiro.</p>
-          <a class="card-link" href="https://pesqueiro.chumbada.com.br/" target="_blank" rel="noopener">
-            <span>Acessar catálogo</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
+        <a class="pcard" href="https://pesqueiro.chumbada.com.br/produtos/secretaria-paredao">
+          <div class="pimg"><img src="https://pesqueiro.chumbada.com.br/fotos/884480e8d186.webp" alt="Secretária Paredão" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Pesqueiro</span><h3>Secretária Paredão</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="pcard" href="https://chumbadas.chumbada.com.br/#/produto/chumbada-beach-bomber-natural">
+          <div class="pimg"><img src="https://chumbadas.chumbada.com.br/assets/images/chumbada-beach-bomber-natural.png" alt="Chumbada Beach Bomber" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Chumbadas &amp; Jig Heads</span><h3>Chumbada Beach Bomber</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="pcard" href="https://oculos.chumbada.com.br/#/produto/631000717">
+          <div class="pimg"><img src="https://oculos.chumbada.com.br/images/12OS-OAPLYE.png" alt="Oculos Solar Oval Modelo 17 — Armação Preta / Lente Amarela Espelhada" loading="lazy" width="400" height="400"></div>
+          <div class="pbody"><span class="tag">Óculos</span><h3>Oculos Solar Oval Modelo 17 — Armação Preta / Lente Amarela Espelhada</h3><span class="go">Ver produto <span aria-hidden="true">→</span></span></div>
+        </a>
+      </div>
     </section>
 
-    <footer class="footer-note">
-      <p><strong>Chumbada Oficial</strong> — Feito de pescador para pescador.</p>
-      <p>Selecione um segmento para abrir o catálogo em uma nova aba.</p>
-    </footer>
+    <!-- FAIXA -->
+    <section class="band" aria-label="Pesca esportiva">
+      <img src="assets/fotos/vara-bolsa.webp" alt="" loading="lazy" data-parallax="0.12">
+      <div class="wrap">
+        <span class="eyebrow">Na água e no balcão</span>
+        <h2>Cada detalhe <em>conta</em> na hora da fisgada.</h2>
+      </div>
+    </section>
+
+    <!-- CATÁLOGOS -->
+    <section class="catalogs" id="catalogos" aria-labelledby="cat-t">
+      <div class="wrap">
+        <span class="eyebrow">Explore nossos catálogos</span>
+        <h2 id="cat-t" class="rv">Escolha uma linha de produtos.</h2>
+        <p class="lead rv">Vitrines limpas, sem preços, para apresentar os modelos aos seus clientes. Abra uma linha e use o menu no topo para trocar de catálogo sem voltar aqui.</p>
+        <div class="cgrid">
+          <a class="ccard rv" style="--d:0s" href="https://anzois.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/anzois.webp" alt="" loading="lazy" width="800" height="800"><span class="num">01</span></div>
+            <div class="cb"><h3>Anzóis & Jig Heads</h3><p>A linha completa de anzóis Premium Quimipoint e padrão, além de jig heads de alta resistência.</p>
+              <div class="foot"><span class="count">45 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+          <a class="ccard rv" style="--d:0.08s" href="https://iscas.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/iscas.webp" alt="" loading="lazy" width="800" height="800"><span class="num">02</span></div>
+            <div class="cb"><h3>Iscas</h3><p>Soft baits, camarões e shads com formatos, tamanhos e cores para cada técnica.</p>
+              <div class="foot"><span class="count">68 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+          <a class="ccard rv" style="--d:0.16s" href="https://acessorios.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/acessorios.webp" alt="" loading="lazy" width="800" height="800"><span class="num">03</span></div>
+            <div class="cb"><h3>Acessórios</h3><p>Suportes, snaps, organizadores, vestuário e itens essenciais projetados por pescadores.</p>
+              <div class="foot"><span class="count">80 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+          <a class="ccard rv" style="--d:0s" href="https://oculos.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/oculos.webp" alt="" loading="lazy" width="800" height="800"><span class="num">04</span></div>
+            <div class="cb"><h3>Óculos Polarizados</h3><p>Óculos de sol polarizados para proteção UV e máxima visibilidade sob a água.</p>
+              <div class="foot"><span class="count">39 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+          <a class="ccard rv" style="--d:0.08s" href="https://chumbadas.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/chumbadas.webp" alt="" loading="lazy" width="800" height="800"><span class="num">05</span></div>
+            <div class="cb"><h3>Chumbadas & Jig Heads</h3><p>A maior variedade de chumbadas técnicas, com formatos e pesos para cada arremesso.</p>
+              <div class="foot"><span class="count">124 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+          <a class="ccard rv" style="--d:0.16s" href="https://pesqueiro.chumbada.com.br/">
+            <div class="cimg"><img src="assets/cards/pesqueiro.webp" alt="" loading="lazy" width="800" height="800"><span class="num">06</span></div>
+            <div class="cb"><h3>Pesqueiro</h3><p>Chumbadas, anzóis, atrativos e acessórios de margem para a pesca em pesqueiro.</p>
+              <div class="foot"><span class="count">27 produtos</span><span class="open">Abrir <i aria-hidden="true">→</i></span></div></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOVIDADES -->
+    <section class="news" id="novidades" aria-labelledby="nov-t">
+      <div class="wrap">
+        <span class="eyebrow">Destaques e novidades</span>
+        <h2 id="nov-t" class="rv">O que há de novo.</h2>
+        <div class="ngrid">
+          <a class="ncard rv" href="https://pesqueiro.chumbada.com.br/"><img src="assets/fotos/linha-detalhe.webp" alt="" loading="lazy"><div><span class="tag">Nova linha</span><h3>Pesqueiro</h3><p>Chumbadas, anzóis, atrativos e acessórios de margem para quem pesca em pesqueiro.</p></div></a>
+          <a class="ncard rv" style="--d:.08s" href="https://acessorios.chumbada.com.br/#/linha-eco"><img src="assets/fotos/bolsa-iscas.webp" alt="" loading="lazy"><div><span class="tag">Acessórios</span><h3>Linha ECO</h3><p>A linha de acessórios sustentáveis dentro do catálogo de Acessórios.</p></div></a>
+          <a class="ncard rv" style="--d:.16s" href="https://iscas.chumbada.com.br/"><img src="assets/fotos/isca-camarao.webp" alt="" loading="lazy"><div><span class="tag">Iscas</span><h3>Camarões e soft baits</h3><p>Formatos, tamanhos e cores para cada técnica, do camarão articulado ao shad.</p></div></a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div>
+          <img src="https://cdn.shopify.com/s/files/1/0454/5845/6736/files/CHUMBADA-OFICIAL.png?v=1756760093" alt="Chumbada Oficial" height="34" loading="lazy">
+          <p style="max-width:380px;font-size:14.5px">Feito por pescador, para pescador. Portal de catálogos da Chumbada Oficial para lojistas, pesqueiros e distribuidores.</p>
+        </div>
+        <div>
+          <h4>Catálogos</h4>
+          <ul><li><a href="https://anzois.chumbada.com.br/">Anzóis & Jig Heads</a></li><li><a href="https://iscas.chumbada.com.br/">Iscas</a></li><li><a href="https://acessorios.chumbada.com.br/">Acessórios</a></li><li><a href="https://oculos.chumbada.com.br/">Óculos Polarizados</a></li><li><a href="https://chumbadas.chumbada.com.br/">Chumbadas & Jig Heads</a></li><li><a href="https://pesqueiro.chumbada.com.br/">Pesqueiro</a></li></ul>
+        </div>
+        <div>
+          <h4>Links úteis</h4>
+          <ul>
+            <li><a href="https://chumbadas.com.br/" target="_blank" rel="noopener">Loja Chumbada Oficial ↗</a></li>
+            <li><a href="#/minha-selecao">Minha Seleção</a></li>
+            <li><a href="#marca">Quem somos</a></li>
+            <li><a href="#catalogos">Todos os catálogos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fine"><span>© <span id="yr">2026</span> Chumbada Oficial. Todos os direitos reservados.</span><span>Versão sem preços</span></div>
+    </div>
+  </footer>
+
   <script>
   (function () {
-    'use strict';
+    var root = document.documentElement;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-    var MAX_RESULTS = 8;
-    var section = document.getElementById('busca');
-    var field = document.getElementById('psField');
-    var input = document.getElementById('psInput');
-    var clearBtn = document.getElementById('psClear');
-    var results = document.getElementById('psResults');
-    var status = document.getElementById('psStatus');
-    var hint = document.getElementById('psHint');
-
-    var index = null;   // { catalogs, products }
-    var matches = [];
-    var activeIdx = -1;
-
-    // Remove acentos para que "oculos" encontre "Óculos" e "anzol" encontre "Anzól".
-    function norm(s) {
-      return String(s || '')
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
-    }
-
-    function tokenize(s) {
-      return norm(s).split(/[^a-z0-9°]+/).filter(Boolean);
-    }
-
-    function escapeHtml(s) {
-      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-      });
-    }
-
-    // Pontua um produto contra os termos digitados. Retorna 0 se algum termo não casar.
-    function score(product, tokens, rawQuery) {
-      var name = product._n;                       // nome normalizado (pré-computado)
-      var hay = product._h;                        // nome + categoria + keywords
-      var total = 1;   // base positiva: chegar aqui já significa match válido
-
-      for (var i = 0; i < tokens.length; i++) {
-        var t = tokens[i];
-        if (hay.indexOf(t) === -1) return 0;       // AND: todo termo precisa aparecer
-
-        if (name.indexOf(t) === 0) total += 220;             // nome começa com o termo
-        else if (name.indexOf(' ' + t) !== -1) total += 120; // termo inicia uma palavra
-        else if (name.indexOf(t) !== -1) total += 60;        // termo no meio do nome
-        else total += 12;                                    // só nas keywords
-      }
-
-      if (name === rawQuery) total += 1200;
-      else if (name.indexOf(rawQuery) === 0) total += 500;
-      else if (name.indexOf(rawQuery) !== -1) total += 260;
-
-      // Desempate: nomes curtos primeiro. O clamp garante que o desempate nunca
-      // zere um match real — sem ele, um acerto apenas por SKU era descartado.
-      total -= Math.min(name.length, 60) * 0.4;
-      return Math.max(total, 0.001);
-    }
-
-    function search(query) {
-      var tokens = tokenize(query);
-      if (!tokens.length) return [];
-      var raw = norm(query).trim();
-      var out = [];
-
-      for (var i = 0; i < index.products.length; i++) {
-        var p = index.products[i];
-        var s = score(p, tokens, raw);
-        if (s > 0) out.push({ p: p, s: s });
-      }
-
-      out.sort(function (a, b) {
-        return b.s - a.s || a.p.n.localeCompare(b.p.n, 'pt-BR');
-      });
-      return out.map(function (r) { return r.p; });
-    }
-
-    // Destaca os trechos que casaram, sem quebrar o HTML do nome.
-    function highlight(name, tokens) {
-      var normName = norm(name);
-      var flags = new Array(name.length).fill(false);
-
-      tokens.forEach(function (t) {
-        var from = 0, at;
-        while ((at = normName.indexOf(t, from)) !== -1) {
-          for (var i = at; i < at + t.length && i < flags.length; i++) flags[i] = true;
-          from = at + t.length;
-        }
-      });
-
-      var html = '', open = false;
-      for (var i = 0; i < name.length; i++) {
-        if (flags[i] && !open) { html += '<mark>'; open = true; }
-        else if (!flags[i] && open) { html += '</mark>'; open = false; }
-        html += escapeHtml(name[i]);
-      }
-      return html + (open ? '</mark>' : '');
-    }
-
-    function productUrl(p) {
-      var cat = index.catalogs[p.c];
-      return cat.url.replace(/\/$/, '') + '/' + cat.path + encodeURIComponent(p.s);
-    }
-
-    function render(query) {
-      var tokens = tokenize(query);
-      results.innerHTML = '';
-      activeIdx = -1;
-
-      if (!tokens.length) {
-        matches = [];
-        close();
-        return;
-      }
-
-      matches = search(query);
-
-      if (!matches.length) {
-        results.classList.remove('open');
-        input.setAttribute('aria-expanded', 'false');
-        status.textContent = 'Nenhum produto encontrado para "' + query.trim() + '".';
-        status.classList.add('on');
-        return;
-      }
-
-      status.classList.remove('on');
-      var shown = matches.slice(0, MAX_RESULTS);
-
-      shown.forEach(function (p, i) {
-        var cat = index.catalogs[p.c];
-        var a = document.createElement('a');
-        a.className = 'ps-item';
-        a.id = 'ps-opt-' + i;
-        a.setAttribute('role', 'option');
-        a.setAttribute('aria-selected', 'false');
-        a.href = productUrl(p);
-        a.target = '_blank';
-        a.rel = 'noopener';
-
-        a.innerHTML =
-          (p.i
-            ? '<img class="ps-thumb" src="' + escapeHtml(p.i) + '" alt="" loading="lazy" />'
-            : '<span class="ps-thumb ps-empty">sem foto</span>') +
-          '<span class="ps-text">' +
-            '<span class="ps-name">' + highlight(p.n, tokens) + '</span>' +
-            '<span class="ps-meta">' +
-              '<span class="ps-cat">' + escapeHtml(cat.label) + '</span>' +
-              (p.p ? '<span class="ps-price">' + escapeHtml(p.p) + '</span>' : '') +
-            '</span>' +
-          '</span>' +
-          '<span class="ps-go" aria-hidden="true">&rarr;</span>';
-
-        results.appendChild(a);
-      });
-
-      if (matches.length > shown.length) {
-        var more = document.createElement('div');
-        more.className = 'ps-more';
-        more.textContent = 'Mostrando ' + shown.length + ' de ' + matches.length +
-          ' — refine a busca para ver os demais';
-        results.appendChild(more);
-      }
-
-      results.classList.add('open');
-      input.setAttribute('aria-expanded', 'true');
-    }
-
-    function close() {
-      results.classList.remove('open');
-      results.innerHTML = '';
-      status.classList.remove('on');
-      input.setAttribute('aria-expanded', 'false');
-      input.removeAttribute('aria-activedescendant');
-      activeIdx = -1;
-    }
-
-    function setActive(i) {
-      var items = results.querySelectorAll('.ps-item');
-      if (!items.length) return;
-      if (activeIdx >= 0 && items[activeIdx]) {
-        items[activeIdx].classList.remove('active');
-        items[activeIdx].setAttribute('aria-selected', 'false');
-      }
-      activeIdx = (i + items.length) % items.length;
-      var el = items[activeIdx];
-      el.classList.add('active');
-      el.setAttribute('aria-selected', 'true');
-      el.scrollIntoView({ block: 'nearest' });
-      input.setAttribute('aria-activedescendant', el.id);
-    }
-
-    input.addEventListener('input', function () {
-      field.classList.toggle('has-value', input.value.length > 0);
-      render(input.value);
+    // Busca do cabeçalho
+    document.querySelectorAll('[data-open-search]').forEach(function (b) {
+      b.addEventListener('click', function () { window.dispatchEvent(new Event('chn:focus-search')); });
     });
 
-    input.addEventListener('keydown', function (e) {
-      var items = results.querySelectorAll('.ps-item');
-      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIdx + 1); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIdx - 1); }
-      else if (e.key === 'Enter') {
-        // Enter sem seleção abre o primeiro resultado.
-        var target = activeIdx >= 0 ? items[activeIdx] : items[0];
-        if (target) { e.preventDefault(); target.click(); }
-      } else if (e.key === 'Escape') {
-        if (results.classList.contains('open')) { e.preventDefault(); close(); }
-        else { input.value = ''; field.classList.remove('has-value'); }
-      }
-    });
+    // Entrada das seções no scroll
+    var rvs = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window) || reduce) rvs.forEach(function (e) { e.classList.add('in'); });
+    else {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      rvs.forEach(function (e) { io.observe(e); });
+    }
 
-    clearBtn.addEventListener('click', function () {
-      input.value = '';
-      field.classList.remove('has-value');
-      close();
-      input.focus();
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!section.contains(e.target)) close();
-    });
-
-    // ---- carga do índice ----
-    fetch('search-index.json', { cache: 'no-cache' })
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        index = data;
-        // Pré-computa os campos normalizados uma única vez (evita recalcular por tecla).
-        index.products.forEach(function (p) {
-          p._n = norm(p.n);
-          var cat = index.catalogs[p.c] || {};
-          p._h = norm(p.n + ' ' + (cat.label || '') + ' ' + (cat.aliases || '') + ' ' + (p.k || ''));
-        });
-
-        var nCat = Object.keys(index.catalogs).length;
-        hint.textContent = index.products.length + ' produtos · ' + nCat + ' catálogos';
-        input.disabled = false;
-        input.placeholder = 'Busque por nome, modelo, peso ou SKU...';
-        section.hidden = false;
-      })
-      .catch(function (err) {
-        // Sem índice a busca não funciona — melhor esconder a seção do que exibi-la quebrada.
-        console.error('Busca indisponível:', err);
-        section.remove();
+    // Parallax leve (só transform, 1 rAF por scroll)
+    var px = [].slice.call(document.querySelectorAll('[data-parallax]'));
+    var tick = false;
+    function par() {
+      tick = false;
+      var vh = innerHeight;
+      px.forEach(function (el) {
+        var r = el.parentElement.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) return;
+        var off = (r.top + r.height / 2 - vh / 2) * parseFloat(el.getAttribute('data-parallax'));
+        el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0)';
       });
+    }
+    if (!reduce && px.length) {
+      addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(par); } }, { passive: true });
+      par();
+    }
+
+    // Carrossel de destaques
+    var rail = document.getElementById('rail');
+    function step(d) { rail.scrollBy({ left: d * (rail.querySelector('.pcard').offsetWidth + 20) * 2, behavior: reduce ? 'auto' : 'smooth' }); }
+    document.getElementById('railPrev').addEventListener('click', function () { step(-1); });
+    document.getElementById('railNext').addEventListener('click', function () { step(1); });
+
+    // Contador dos números do herói
+    if (!reduce) document.querySelectorAll('[data-count]').forEach(function (el) {
+      var to = +el.getAttribute('data-count'), t0 = null;
+      function f(t) { if (!t0) t0 = t; var p = Math.min((t - t0) / 1100, 1); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); }
+      el.textContent = '0'; requestAnimationFrame(f);
+    });
   })();
   </script>
 </body>
