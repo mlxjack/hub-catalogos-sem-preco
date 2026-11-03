@@ -101,6 +101,7 @@ nav a{position:relative;display:inline-flex;align-items:center;gap:6px;height:40
 nav a:hover{background:rgba(255,255,255,.1);color:#fff}\
 nav a[aria-current=page]{background:#ff4d00;color:#fff;box-shadow:0 4px 14px rgba(255,77,0,.4)}\
 nav a.mo{display:none}\
+.nx{display:none}\
 nav a.sub{font-weight:500;font-size:12.5px;color:#ffb48f}\
 nav a.sub:hover{color:#fff}\
 .sp{flex:1}\
@@ -158,6 +159,11 @@ nav a.sub:hover{color:#fff}\
   nav a{flex:none;height:34px;padding:0 13px;font-size:13px;background:rgba(255,255,255,.08)}\
   nav a.sub{background:rgba(255,138,82,.14)}\
   nav a.mo{display:inline-flex;color:rgba(255,255,255,.65)}\
+  .in{position:relative}\
+  .nx{display:flex;position:absolute;right:0;top:56px;width:44px;height:34px;align-items:center;justify-content:flex-end;padding-right:8px;background:linear-gradient(90deg,transparent,#0a3541 70%);color:#fff;z-index:1;transition:opacity .25s}\
+  .nx svg{animation:nudge 1.6s ease-in-out 3}\
+  .nx.end{opacity:0;pointer-events:none}\
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}\
   .panel{border-radius:0 0 16px 16px}\
 }\
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}\
@@ -199,6 +205,7 @@ nav a.sub:hover{color:#fff}\
       '<div class="bar"><div class="in">' +
         '<a class="logo" href="' + (isHub ? base : V.hub) + '" aria-label="Chumbada Oficial — Catálogos, página inicial"' + (isHub ? ' aria-current="page"' : '') + '><img src="' + logoSrc + '" alt="" height="48"><span class="lt"><b>Chumbada</b><small>Catálogos</small></span></a>' +
         '<nav aria-label="Catálogos">' + linksHtml() + '<a class="mo" href="https://chumbadas.com.br/" target="_blank" rel="noopener">Loja ↗</a></nav>' +
+        '<button class="nx" id="nx" aria-label="Ver mais catálogos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>' +
         '<div class="sp"></div>' +
         '<label class="sf" role="search">' + ICON_SEARCH +
           '<input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar produto..." aria-label="Buscar produto em todos os catálogos" role="combobox" aria-expanded="false" aria-controls="res"><kbd aria-hidden="true">/</kbd></label>' +
@@ -387,10 +394,31 @@ nav a.sub:hover{color:#fff}\
     var host = build();
     document.body.insertBefore(host, document.body.firstChild);
     document.documentElement.classList.add('chn-on');
-    requestAnimationFrame(function () {
-      var nv = host.shadowRoot.querySelector('nav'), cur = nv && nv.querySelector('[aria-current=page]');
+    setTimeout(function () {
+      var rt = host.shadowRoot, nv = rt.querySelector('nav'), nx = rt.getElementById('nx'), cur = nv && nv.querySelector('[aria-current=page]');
+      if (!nv) return;
+      var more = function () { return nv.scrollLeft + nv.clientWidth < nv.scrollWidth - 6; };
+      var sync = function () { nx.classList.toggle('end', !more()); };
       if (cur && nv.scrollWidth > nv.clientWidth) nv.scrollLeft = cur.offsetLeft - (nv.clientWidth - cur.offsetWidth) / 2;
-    });
+      nv.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync);
+      nx.addEventListener('click', function () { nv.scrollBy({ left: nv.clientWidth * 0.6, behavior: 'smooth' }); });
+      sync();
+      // Dica de que a faixa desliza: um empurrãozinho para o lado, uma vez por visita.
+      var seen = false;
+      try { seen = sessionStorage.getItem('chn-peek') === '1'; } catch (e) {}
+      if (seen || innerWidth > 960 || !(nv.scrollWidth > nv.clientWidth) ||
+          (window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) return;
+      var stop = false, cancel = function () { stop = true; };
+      nv.addEventListener('touchstart', cancel, { once: true, passive: true });
+      setTimeout(function () {
+        if (stop) return;
+        try { sessionStorage.setItem('chn-peek', '1'); } catch (e) {}
+        var from = nv.scrollLeft, dir = more() ? 1 : -1;
+        nv.scrollTo({ left: from + dir * 70, behavior: 'smooth' });
+        setTimeout(function () { if (!stop) nv.scrollTo({ left: from, behavior: 'smooth' }); }, 750);
+      }, 900);
+    }, 30);
     window.dispatchEvent(new CustomEvent('chn:ready', { detail: { host: host } }));
     // Qualquer página pode pedir foco na busca: window.dispatchEvent(new Event('chn:focus-search'))
     window.addEventListener('chn:focus-search', function () {
