@@ -81,3 +81,8 @@ Cada catálogo guarda seus dados de um jeito diferente, e o script respeita isso
 
 Se um desses parsers mudar de forma incompatível, o script falha com mensagem
 explícita em vez de gerar um índice silenciosamente errado.
+
+## Homepage e menu global
+
+`index.html` e `shell/chn.js` são **gerados** por `E:\Claude\chumbada-shell\build-hub.mjs`
+(não editar à mão). Ver o README dessa pasta.
