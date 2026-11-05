@@ -24,7 +24,7 @@
     'porta-elastricot': { on: ['Amarelo', 'Branco', 'Rosa', 'Verde', 'Vermelho', 'Translúcido'] },
     'porta-pernada-compacto': { on: ['Cinza', 'Violeta'] },
     'porta-pernada-e-chicote': { on: ['Branco', 'Areia', 'Rosa'], off: ['Azul'] },
-    'suporte-de-vara-slim': { on: ['Azul', 'Laranja', 'Amarelo', 'Branco', 'Cinza', 'Rosa', 'Roxo', 'Verde', 'Vermelho'] },
+    'suporte-de-vara-slim': { on: ['Laranja', 'Amarelo', 'Branco', 'Cinza', 'Rosa', 'Roxo', 'Verde', 'Vermelho'] },
     'suporte-para-molinetes': { on: ['Azul'] },
     'tela-de-espremer-iscas': { on: ['Amarela', 'Verde', 'Vermelha'] },
     'suporte-de-vara-premium-completo': { on: ['Branco'], onlyVars: ['Somente copo', 'Somente ferradura'] }
